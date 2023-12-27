@@ -3,7 +3,7 @@ import { InitialStateProps } from "./types"
 
 
 const initialState: InitialStateProps = {
-    appName: "React BoilerPalette"
+    appName: "MindZone"
 }
 
 const appSlice = createSlice({

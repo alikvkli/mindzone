@@ -5,6 +5,15 @@ import { router } from './routes';
 import { Provider } from 'react-redux';
 import { persistor, store } from './store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#5068cb',
+    },
+  },
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,7 +21,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <PersistGate persistor={persistor} loading={null}>
-      <RouterProvider router={router} />
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </PersistGate>
   </Provider>
 );

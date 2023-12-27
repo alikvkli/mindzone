@@ -1,13 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-body{
-    background: #1e293b;
-    color: white;
+body {
+    font-family: 'Ubuntu', sans-serif;
 }
 
-canvas {
-    image-rendering: optimizeQuality;
+.text-gradient {
+    background: linear-gradient(to right, #5068cb, #100c84);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.video-gradient {
+    background-image: linear-gradient(to left, #01022f, #01000b);
+}
+
+.week-card {
+    position: relative;
+}
+
+.week-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('assets/img/brain.webp');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1;
+}
+
+.with-bullet::before {
+    content: '\2022';
+    color: linear-gradient(to right, #5068cb, #100c84);
+    display: inline-block;
+    width: 1em;
+    margin-right: 0.1em;
 }

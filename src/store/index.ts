@@ -5,7 +5,7 @@ import storage from 'redux-persist/lib/storage/session';
 import app from "../features/app";
 
 const encryptor = encryptTransform({
-    secretKey: 'hVmYq3t6w9y$B&E)H@McQfTjWnZr4u7x'
+    secretKey: 'hVmYq3t6w9y$B&E)H@McQfTjWnZr4u7x',
 });
 
 const reducers = combineReducers({
