@@ -56,11 +56,11 @@ const Header: React.FC = () => {
                         <Button onClick={resetSteps} style={{ textTransform: 'none' }} endIcon={<RestartAlt />} color="inherit">
                             Sıfırla
                         </Button>
-                        {menuItems.map((item) => (
+                        {/* {menuItems.map((item) => (
                             <Button onClick={() => navigation(item.link)} style={{ textTransform: 'none' }} key={item.text} color="inherit">
                                 {item.text}
                             </Button>
-                        ))}
+                        ))} */}
                     </div>
                 </Toolbar>
             </GradientAppBar>

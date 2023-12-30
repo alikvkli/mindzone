@@ -6,8 +6,13 @@ const initialState: InitialStateProps = {
     appName: "MindZone",
     step: {
         week: 1,
-        task: 2
+        task: 1
+    },
+    isLogin: false,
+    initalFlow: {
+        step_1: false
     }
+
 }
 
 const appSlice = createSlice({
@@ -19,6 +24,12 @@ const appSlice = createSlice({
         },
         setStep: (state, action: PayloadAction<InitialStateProps['step']>) => {
             state.step = action.payload
+        },
+        setLogin: (state, action: PayloadAction<boolean>) => {
+            state.isLogin = action.payload;
+        },
+        setInitialFlow: (state, action:PayloadAction<InitialStateProps['initalFlow']>) => {
+            state.initalFlow = action.payload;
         }
     }
 })
@@ -26,7 +37,9 @@ const appSlice = createSlice({
 
 export const {
     changeAppName,
-    setStep
+    setStep,
+    setLogin,
+    setInitialFlow
 } = appSlice.actions;
 
 export default appSlice.reducer;
