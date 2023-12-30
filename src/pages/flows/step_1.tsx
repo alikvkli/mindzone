@@ -45,22 +45,22 @@ export default function Step1() {
                             <h4 className="text-sm text-gray-500">Soru {currentQuestion}:</h4>
                             <p className="mt-2 font-semibold">{getQuestion?.qa}</p>
                             <div className="flex max-md:flex-col mt-4 items-start justify-start gap-4 w-full">
-                                <button onClick={() => handleAnswer("Kesinlikle katılıyorum")} type="button" className="border-[1px] cursor-pointer max-md:w-full text-sm p-4 rounded-md shadow-md border-[#5068cb]  hover:text-white transition-all">
+                                <button onClick={() => handleAnswer("Kesinlikle katılıyorum")} type="button" className="border-[1px] cursor-pointer max-md:w-full text-sm p-4 rounded-md shadow-md border-[#5068cb]  hover:text-[#5068cb] transition-all">
                                     Kesinlikle katılıyorum
                                 </button>
-                                <button onClick={() => handleAnswer("Sıklıkla katılıyorum")} type="button" className="border-[1px] cursor-pointer max-md:w-full text-sm p-4 rounded-md shadow-md border-[#5068cb]  hover:text-white transition-all">
+                                <button onClick={() => handleAnswer("Sıklıkla katılıyorum")} type="button" className="border-[1px] cursor-pointer max-md:w-full text-sm p-4 rounded-md shadow-md border-[#5068cb]  hover:text-[#5068cb] transition-all">
                                     Sıklıkla katılıyorum
                                 </button>
-                                <button onClick={() => handleAnswer("Bazen katılıyorum")} type="button" className="border-[1px] cursor-pointer max-md:w-full text-sm p-4 rounded-md shadow-md border-[#5068cb]  hover:text-white transition-all">
+                                <button onClick={() => handleAnswer("Bazen katılıyorum")} type="button" className="border-[1px] cursor-pointer max-md:w-full text-sm p-4 rounded-md shadow-md border-[#5068cb]  hover:text-[#5068cb] transition-all">
                                     Bazen katılıyorum
                                 </button>
-                                <button onClick={() => handleAnswer("Kesinlikle katılmıyorum")} type="button" className="border-[1px] cursor-pointer max-md:w-full text-sm p-4 rounded-md shadow-md border-[#5068cb]  hover:text-white transition-all">
+                                <button onClick={() => handleAnswer("Kesinlikle katılmıyorum")} type="button" className="border-[1px] cursor-pointer max-md:w-full text-sm p-4 rounded-md shadow-md border-[#5068cb]  hover:text-[#5068cb] transition-all">
                                     Kesinlikle katılmıyorum
                                 </button>
                             </div>
                         </div>
                     )}
-                    {loading && <div className="flex w-full p-4 gap-3 flex-col items-center justify- center">
+                    {loading && <div className="flex w-full p-4 gap-2 flex-col items-center justify- center">
                         <Lottie animationData={brainAnimation} />
                         <p className="text-2xl text-gray-500">Yükleniyor...</p>
                     </div>}
