@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { AppBar, Toolbar, Typography, Button, Drawer, List, ListItem, ListItemText } from '@mui/material';
-import { Menu } from '@mui/icons-material';
+import { ClearAll, Menu, RestartAlt } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setStep } from '../../features/app';
 
 const HamburgerButton = styled(Button)`
   && {
@@ -19,7 +20,8 @@ const GradientAppBar = styled(AppBar)`
 `;
 
 const Header: React.FC = () => {
-    const {appName} = useAppSelector(state => state.app);
+    const { appName } = useAppSelector(state => state.app);
+    const dispatch = useAppDispatch();
     const navigation = useNavigate();
     const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -32,6 +34,10 @@ const Header: React.FC = () => {
         { text: 'Kayıt Ol', link: '/kayit-ol' },
         { text: 'Hakkımızda', link: '/hakkimizda' },
     ];
+
+    const resetSteps = () => {
+        dispatch(setStep({ week: 1, task: 1 }));
+    }
 
     return (
         <>
@@ -47,6 +53,9 @@ const Header: React.FC = () => {
                         </Typography>
                     </Link>
                     <div className="hidden md:flex space-x-4">
+                        <Button onClick={resetSteps} style={{ textTransform: 'none' }} endIcon={<RestartAlt />} color="inherit">
+                            Sıfırla
+                        </Button>
                         {menuItems.map((item) => (
                             <Button onClick={() => navigation(item.link)} style={{ textTransform: 'none' }} key={item.text} color="inherit">
                                 {item.text}
@@ -56,7 +65,7 @@ const Header: React.FC = () => {
                 </Toolbar>
             </GradientAppBar>
 
-            <Drawer anchor="left"  open={drawerOpen} onClose={toggleDrawer}>
+            <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
                 <List>
                     {menuItems.map((item) => (
                         <ListItem

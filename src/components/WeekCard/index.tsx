@@ -9,9 +9,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 const WeekCard: FC<TWeekCard> = (props) => {
     const navigate = useNavigate();
-    const { title, subtitle, done } = props;
+    const { title, subtitle, done, link } = props;
     return (
-        <div onClick={() => navigate("/task/item--1")} className="week-card cursor-pointer relative shadow-md bg-cover bg-center border-[1px] rounded-md py-2 px-4 flex flex-col items-center justify-center  w-[300px] h-52 hover:border-[#5068cb] hover:border-2 transition-all">
+        <div onClick={() => navigate(link)} className="week-card cursor-pointer relative shadow-md bg-cover bg-center border-[1px] rounded-md py-2 px-4 flex flex-col items-center justify-center  w-[300px] h-52 hover:border-[#5068cb] hover:border-2 transition-all">
             <p className="text-gradient font-semibold text-3xl">{title}</p>
             <hr className="w-full h-[3.5px] bg-[#5068cb] rounded-lg" />
             <div className="flex flex-col items-start justify-start mt-2">

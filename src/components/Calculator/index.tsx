@@ -29,7 +29,7 @@ const Calculator: FC<TCalculator> = (props) => {
 
                 <div className="flex items-center gap-2 justify-center">
                     {selectedNumbers?.map((number, key) => (
-                        <NumberCard key={key} number={Number(number)} />
+                        <NumberCard xl={false} key={key} number={Number(number)} />
                     ))}
                 </div>
 

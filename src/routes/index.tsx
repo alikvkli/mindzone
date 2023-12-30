@@ -4,7 +4,8 @@ import Root from "./root"
 import Register from "../pages/register"
 import Login from "../pages/login"
 import About from "../pages/about"
-import Task from "../pages/task"
+import Task1 from "../pages/weeks/week-1/task_1"
+import Task2 from "../pages/weeks/week-1/task_2"
 
 export const router = createBrowserRouter([
     {
@@ -28,8 +29,12 @@ export const router = createBrowserRouter([
                 element: <About />
             },
             {
-                path: "task/:id",
-                element: <Task />
+                path: "week/1/task-1",
+                element: <Task1 />
+            },
+            {
+                path: "week/1/task-2",
+                element: <Task2 />
             }
         ]
     }
