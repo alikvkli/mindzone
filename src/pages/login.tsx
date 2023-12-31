@@ -12,7 +12,7 @@ export default function Login() {
     const dispatch = useAppDispatch();
     const { appName } = useAppSelector(state => state.app);
     const navigate = useNavigate();
-    
+
     const handleLogin = () => {
         dispatch(setLogin(true))
         navigate("/")
@@ -21,7 +21,7 @@ export default function Login() {
 
     return (
         <div className="flex items-center justify-between max-md:flex-col">
-            <Lottie style={{ height: isMobile ? "300px" : "600px", width: isMobile ? "100%" : "50%", flexShrink: 0 }} animationData={brainAnimation} />
+            {!isMobile && <Lottie style={{ height: "600px", width: "50%", flexShrink: 0 }} animationData={brainAnimation} />}
             <div className="flex flex-col  bg-white rounded-sm shadow-sm h-screen w-full items-start justify-center p-6">
                 <h1 className='text-2xl'><span className="text-gradient text-3xl">{appName}</span> / <span className="text-gray-500 text-[16px]">Giriş Yap</span></h1>
                 <Divider />

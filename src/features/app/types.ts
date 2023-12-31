@@ -1,5 +1,6 @@
 export interface InitialStateProps {
     appName: string;
+    appDescription: string;
     step: TStep;
     isLogin: boolean;
     initalFlow: TInitialFlow;

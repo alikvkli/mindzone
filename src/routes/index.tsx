@@ -6,6 +6,7 @@ import Login from "../pages/login"
 import About from "../pages/about"
 import Task1 from "../pages/weeks/week-1/task_1"
 import Task2 from "../pages/weeks/week-1/task_2"
+import PerfTask1 from "../pages/performance/perf_task_1"
 
 export const router = createBrowserRouter([
     {
@@ -29,12 +30,16 @@ export const router = createBrowserRouter([
                 element: <About />
             },
             {
-                path: "week/1/task-1",
+                path: "hafta/1/task-1",
                 element: <Task1 />
             },
             {
-                path: "week/1/task-2",
+                path: "hafta/1/task-2",
                 element: <Task2 />
+            },
+            {
+                path: "performans/task-1",
+                element:<PerfTask1/>
             }
         ]
     }

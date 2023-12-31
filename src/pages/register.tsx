@@ -21,7 +21,7 @@ export default function Register() {
 
     return (
         <div className="flex items-start justify-between max-md:flex-col">
-            <Lottie style={{ height: isMobile ? "300px" : "600px", width: isMobile ? "100%" : "50%", flexShrink: 0 }} animationData={brainAnimation} />
+            {!isMobile && <Lottie style={{ height: "600px", width: "50%", flexShrink: 0 }} animationData={brainAnimation} />}
             <div className="flex flex-col h-full bg-white rounded-sm shadow-sm w-full items-start justify-center p-6">
                 <h1 className='text-2xl'><span className="text-gradient text-3xl">{appName}</span> / <span className="text-gray-500 text-[16px]">Kayıt ol</span></h1>
                 <Divider />
@@ -98,7 +98,7 @@ export default function Register() {
                     </FormControl>
 
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox />} label="Üyelik şözlemesini kabul ediyorum" />
+                        <FormControlLabel control={<Checkbox />} label="Çalışmaya katılmayı kabul ediyorum" />
                     </FormGroup>
 
                     <Button startIcon={<GroupAdd />} sx={{ borderRadius: "16px", textTransform: "none" }} fullWidth variant="outlined">Kayıt Ol</Button>

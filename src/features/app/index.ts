@@ -4,6 +4,7 @@ import { InitialStateProps } from "./types"
 
 const initialState: InitialStateProps = {
     appName: "MindZone",
+    appDescription: "Ruh Sağlığına Yönelik Beyin Egzersizleri",
     step: {
         week: 1,
         task: 1

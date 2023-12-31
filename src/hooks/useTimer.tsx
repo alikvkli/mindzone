@@ -11,10 +11,13 @@ interface TimerHook {
 const useTimer = (initialTime: number = 0): TimerHook => {
     const [time, setTime] = useState<number>(initialTime);
     const [isRunning, setIsRunning] = useState<boolean>(false);
+    const startTimeRef = useRef<number>(performance.now());
     const timerRef = useRef<number | null>(null);
 
     const startTimer = (): void => {
         setIsRunning(true);
+        startTimeRef.current = performance.now();
+        requestAnimationFrame(updateTimer);
     };
 
     const stopTimer = (): void => {
@@ -26,21 +29,20 @@ const useTimer = (initialTime: number = 0): TimerHook => {
         stopTimer();
     };
 
-    useEffect(() => {
-        if (isRunning) {
-            timerRef.current = window.setInterval(() => {
-                setTime((prevTime) => prevTime + 1);
-            }, 1000);
-        } else {
-            // TypeScript expects clearInterval to receive a number or null
-            window.clearInterval(timerRef.current as number);
-        }
+    const updateTimer = (currentTime: number): void => {
+        const elapsedTime = (currentTime - startTimeRef.current) / 1000; // Saniye cinsinden geçen süre
+        setTime(Math.abs(initialTime + elapsedTime));
 
+        if (isRunning) {
+            timerRef.current = requestAnimationFrame(updateTimer);
+        }
+    };
+
+    useEffect(() => {
         return (): void => {
-            // TypeScript expects clearInterval to receive a number or null
-            window.clearInterval(timerRef.current as number);
+            cancelAnimationFrame(timerRef.current as number);
         };
-    }, [isRunning]);
+    }, []);
 
     return {
         time,

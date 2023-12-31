@@ -1,5 +1,4 @@
-import { Button, Step, StepConnector, StepLabel, Stepper } from "@mui/material";
-import brainVideo from "../assets/videos/brain.mp4";
+import { Button, Step, StepLabel, Stepper } from "@mui/material";
 import WeekCard from "../components/WeekCard";
 import { AccountCircle, GroupAdd, Info } from "@mui/icons-material";
 import Lottie from "lottie-react";
@@ -40,37 +39,37 @@ const weekData = [
     {
         title: "Hafta 1",
         done: true,
-        link: "/week/1/task-1",
+        link: "/hafta/1/task-1",
         enabled: true,
     },
     {
         title: "Hafta 2",
-        link: "/week/2/task-1",
+        link: "/hafta/2/task-1",
         done: false,
         enabled: false,
 
     },
     {
         title: "Hafta 3",
-        link: "/week/3/task-1",
+        link: "/hafta/3/task-1",
         done: false,
         enabled: false,
     },
     {
         title: "Hafta 4",
-        link: "/week/4/task-1",
+        link: "/hafta/4/task-1",
         done: false,
         enabled: false,
     },
     {
         title: "Hafta 5",
-        link: "/week/5/task-1",
+        link: "/hafta/5/task-1",
         done: false,
         enabled: false,
     },
     {
         title: "Hafta 6",
-        link: "/week/6/task-1",
+        link: "/hafta/6/task-1",
         done: false,
         enabled: false,
     }
@@ -81,11 +80,7 @@ export default function HomePage() {
     const { isLogin, initalFlow } = useAppSelector(state => state.app);
     return (
         <main className="flex flex-col items-center justify-center relative">
-            {/* <section className="bg-gradient-to-l video-gradient w-full h-80 relative">
-                <video loop className="w-full h-full" src={brainVideo} autoPlay muted />
-            </section> */}
             <Lottie style={{ position: "absolute", left: 0, top: 0, opacity: "0.1", zIndex: "-1" }} animationData={backgroundAnimation} />
-
 
             {!isLogin && (
                 <section className="max-md:p-2 flex items-center justify-center overflow-auto">
@@ -136,7 +131,7 @@ export default function HomePage() {
                                     </Step>
                                 ))}
                             </Stepper>
-                            <div className="grid grid-cols-3 max-md:grid-cols-1 gap-16 justify-center items-center p-4 h-full">
+                            <div className="grid grid-cols-3 max-md:grid-cols-1 max-lg:grid-cols-2  gap-16 justify-center items-center p-4 h-full">
                                 {weekData.map((item, key) => (
                                     <WeekCard key={key} {...item} />
                                 ))}

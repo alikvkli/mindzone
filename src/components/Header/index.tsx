@@ -1,8 +1,8 @@
 // src/Header.tsx
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { AppBar, Toolbar, Typography, Button, Drawer, List, ListItem, ListItemText } from '@mui/material';
-import { ClearAll, Menu, RestartAlt } from '@mui/icons-material';
+import { AppBar, Toolbar, Typography, Button, Menu, Drawer, List, ListItem, ListItemText, MenuItem } from '@mui/material';
+import { ClearAll, Menu as MenuIcon, RestartAlt } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setStep } from '../../features/app';
@@ -16,11 +16,12 @@ const HamburgerButton = styled(Button)`
 `;
 
 const GradientAppBar = styled(AppBar)`
+  padding:6px;
   background: linear-gradient(to right, #5068cb, #100c84);
 `;
 
 const Header: React.FC = () => {
-    const { appName } = useAppSelector(state => state.app);
+    const { appName, appDescription } = useAppSelector(state => state.app);
     const dispatch = useAppDispatch();
     const navigation = useNavigate();
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -29,10 +30,22 @@ const Header: React.FC = () => {
         setDrawerOpen(!drawerOpen);
     };
 
+
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+
     const menuItems = [
+        { text: 'Performans 1', link: "/performans/task-1" },
         { text: 'Giriş Yap', link: '/giris-yap' },
         { text: 'Kayıt Ol', link: '/kayit-ol' },
-        { text: 'Hakkımızda', link: '/hakkimizda' },
+        { text: 'Biz Kimiz', link: '/hakkimizda' },
     ];
 
     const resetSteps = () => {
@@ -41,31 +54,63 @@ const Header: React.FC = () => {
 
     return (
         <>
-            <GradientAppBar position="static">
+            <GradientAppBar position="sticky">
                 <Toolbar>
                     <HamburgerButton
                         onClick={toggleDrawer}>
-                        <Menu className="text-white" />
+                        <MenuIcon className="text-white" />
                     </HamburgerButton>
                     <Link to="/" className="flex-grow">
-                        <Typography variant="h6" component="div">
-                            {appName}
-                        </Typography>
+                        <div className='flex gap-2 items-center justify-start max-md:flex-col max-md:items-start max-md:gap-0'>
+                            <Typography variant="h6" component="div">
+                                {appName}
+                            </Typography>
+                            <small className='max-md:text-sm'>
+                                <span className='max-md:hidden'>/</span> {appDescription}
+                            </small>
+
+                        </div>
                     </Link>
                     <div className="hidden md:flex space-x-4">
+
+                        <Button
+                            style={{ textTransform: 'none' }}
+                            color="inherit"
+                            id="basic-button"
+                            aria-controls={open ? 'basic-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            onClick={handleClick}
+                        >
+                            Performans Taskları
+                        </Button>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}>
+                            {menuItems.filter(item => item.text.toLocaleLowerCase().includes('performans')).map((item) => (
+                                <MenuItem style={{ textTransform: 'none', }} onClick={() => {
+                                    setAnchorEl(null)
+                                    navigation(item.link)
+                                }} key={item.text}>
+                                    {item.text}
+                                </MenuItem>
+                            ))}
+                        </Menu>
+
                         <Button onClick={resetSteps} style={{ textTransform: 'none' }} endIcon={<RestartAlt />} color="inherit">
                             Sıfırla
                         </Button>
-                        {/* {menuItems.map((item) => (
-                            <Button onClick={() => navigation(item.link)} style={{ textTransform: 'none' }} key={item.text} color="inherit">
-                                {item.text}
-                            </Button>
-                        ))} */}
+
                     </div>
                 </Toolbar>
             </GradientAppBar>
 
-            <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
+            <Drawer PaperProps={{ sx: { width: "80%" } }} anchor="left" open={drawerOpen} onClose={toggleDrawer}>
                 <List>
                     {menuItems.map((item) => (
                         <ListItem
