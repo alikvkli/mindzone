@@ -4,7 +4,7 @@ import brainAnimation from "../assets/animations/brain.json";
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { Button, Checkbox, Divider, FormControlLabel, FormGroup, TextField } from '@mui/material';
 import { AccountCircle, GroupAdd } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from'react-router-dom';
 import { setLogin } from '../features/app';
 
 export default function Login() {

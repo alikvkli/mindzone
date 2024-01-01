@@ -4,6 +4,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import { setInitialFlow } from "../../features/app";
 import brainAnimation from "../../assets/animations/brain-2.json";
 import Lottie from "lottie-react";
+import { IconButton } from "@mui/material";
+import { NavigateNext } from "@mui/icons-material";
 
 export default function Step1() {
     const { appName } = useAppSelector(state => state.app);
@@ -63,9 +65,10 @@ export default function Step1() {
                 </div>
             )}
 
-            {done && (
-                <div> bitti</div>
-            )}
+
+            <IconButton style={{ position: "fixed", background: "#4caf50", color: "white", bottom: 10, right: 10, zIndex: 10, height: "60px", width: "60px" }} onClick={() => dispatch(setInitialFlow({ step_1: true }))}>
+                <NavigateNext />
+            </IconButton>
 
 
         </section>

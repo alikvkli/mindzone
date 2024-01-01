@@ -3,15 +3,27 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "../../hooks";
 import { TRandomImage, generateRandomImage } from "../../utils";
 import useTimer from "../../hooks/useTimer";
-import { Drawer, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { Info } from "@mui/icons-material";
+import { Box, Collapse, Drawer, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Info, KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import classNames from "classnames";
+import React from "react";
 
-type TAnswers = Pick<TRandomImage, 'shape' | 'number' | 'color'> & {
-    guess: number;
+const cardLimit = 5;
+
+type TGues = Pick<TRandomImage, 'color' | 'number' | 'shape'>;
+
+type TAnswers = Pick<TRandomImage, 'shape' | 'number' | 'color' | 'rule' | 'id'> & {
+    guess: TGues;
     status: boolean;
     time: number;
-};
+    subGuess?: TAnswers[]
+}
+
+
+
+
+
+
 
 export default function PerfTask1() {
     const navigate = useNavigate();
@@ -35,25 +47,144 @@ export default function PerfTask1() {
     }
 
 
-
-    const checkImage = (guess: number) => {
-        const userResult = activeData.number === guess;
-        stopTimer();
-        setAnswers((prevState) => ([...prevState, { shape: activeData.shape, number: activeData.number, color: activeData.color, guess: guess, status: userResult, time: time }]))
-        setResult(userResult ? "Doğru!" : "Yanlış!");
-        let showNumberInterval: NodeJS.Timeout;
-        showNumberInterval = setInterval(() => {
-            setResult("");
-            resetTimer();
-            setActiveData(generateRandomImage())
-            startTimer()
-            clearInterval(showNumberInterval);
-        }, 1000);
-    }
-
     useEffect(() => {
-        console.log(activeData)
-    }, [activeData])
+        if (answers.length >= cardLimit) {
+            console.log("task done")
+            setTimeout(() => {
+                setTaskDone(true);
+            }, 1000)
+        }
+    }, [answers])
+
+
+
+    const checkImage = (guess: TGues) => {
+        if(result !== ""){
+            return;
+        }
+
+        //rule 1 -> shape
+        //rule 2 -> color
+        //rule 3 -> number,
+        let userResult = false;
+
+        if (activeData.rule === 'Rule1') {
+            userResult = guess.shape === activeData.shape
+        } else if (activeData.rule === 'Rule2') {
+            userResult = guess.color === activeData.color
+        } else {
+            userResult = guess.number === activeData.number;
+        }
+
+        let showNumberInterval: NodeJS.Timeout;
+
+        stopTimer();
+
+        if (userResult) {
+            let checkGuess = answers.find(item => item.id === activeData.id);
+
+            if (checkGuess) {
+                setAnswers((prevState) => {
+                    const updatedAnswers = prevState.map(item => {
+
+                        let firstTime = item.time;
+                        if (item.subGuess) {
+                            const subGuessTimes = item.subGuess.map(subItem => subItem.time);
+                            const totalSubGuessTime = subGuessTimes.reduce((acc, time) => acc + time, 0);
+                            firstTime += totalSubGuessTime;
+                        }
+
+                        return item.id === activeData.id
+                            ? {
+                                ...item,
+                                time: firstTime,
+                                subGuess: [...(item.subGuess || []), {
+                                    id: activeData.id,
+                                    rule: activeData.rule,
+                                    shape: activeData.shape,
+                                    number: activeData.number,
+                                    color: activeData.color,
+                                    guess: guess,
+                                    status: userResult,
+                                    time: time
+                                }]
+                            }
+                            : item
+                    }
+
+
+                    );
+                    return updatedAnswers;
+                });
+            } else {
+                setAnswers((prevState) => ([...prevState, { id: activeData.id, rule: activeData.rule, shape: activeData.shape, number: activeData.number, color: activeData.color, guess: guess, status: userResult, time: time }]))
+            }
+
+            setResult("Doğru!");
+            showNumberInterval = setInterval(() => {
+                setResult("");
+                resetTimer();
+                setActiveData(generateRandomImage())
+                startTimer()
+                clearInterval(showNumberInterval);
+            }, 1000);
+        } else {
+
+            let findData = answers.find(item => item.id === activeData.id);
+            if (findData) {
+                setAnswers((prevState) => {
+                    const updatedAnswers = prevState.map(item =>
+                        item.id === activeData.id
+                            ? {
+                                ...item,
+                                subGuess: [...(item.subGuess || []), {
+                                    id: activeData.id,
+                                    rule: activeData.rule,
+                                    shape: activeData.shape,
+                                    number: activeData.number,
+                                    color: activeData.color,
+                                    guess: guess,
+                                    status: userResult,
+                                    time: time
+                                }]
+                            }
+                            : item
+                    );
+                    return updatedAnswers;
+                });
+            } else {
+                setAnswers((prevState) => ([...prevState, {
+                    id: activeData.id,
+                    rule: activeData.rule,
+                    shape: activeData.shape,
+                    number: activeData.number,
+                    color: activeData.color,
+                    guess: guess,
+                    subGuess: [{
+                        id: activeData.id,
+                        rule: activeData.rule,
+                        shape: activeData.shape,
+                        number: activeData.number,
+                        color: activeData.color,
+                        guess: guess,
+                        status: userResult,
+                        time: time
+                    }],
+                    status: userResult,
+                    time: time
+                }]));
+            }
+
+            setResult("Yanlış!");
+            showNumberInterval = setInterval(() => {
+                resetTimer();
+                setResult("");
+                startTimer();
+                clearInterval(showNumberInterval);
+            }, 1000);
+        }
+
+    }
 
     useEffect(() => {
         console.table(answers)
@@ -110,19 +241,19 @@ export default function PerfTask1() {
 
                     <div className="rounded-md grid grid-cols-2 md:grid-cols-4 gap-4 items-center justify-center">
 
-                        <button onClick={() => checkImage(1)} type="button" className="w-20 h-20">
+                        <button disabled={result !== ""} onClick={() => checkImage({ shape: 'dot', number: 1, color: 'red' })} type="button" className="w-20 h-20 relative disabled:after:content-[''] disabled:after:w-20 disabled:after:h-20 disabled:after:bg-red-500/40 disabled:after:absolute disabled:after:left-0 disabled:after:top-0 disabled:after:rounded-md disabled:cursor-not-allowed">
                             <img className="w-full h-full rounded-md" src={`${process.env.PUBLIC_URL}/img/perf_1_img/1redDots.jpg`} />
                         </button>
 
-                        <button onClick={() => checkImage(2)} type="button" className="w-20 h-20">
+                        <button disabled={result !== ""}  onClick={() => checkImage({ shape: 'triangle', number: 2, color: 'green' })} type="button" className="w-20 h-20 relative disabled:after:content-[''] disabled:after:w-20 disabled:after:h-20 disabled:after:bg-red-500/40 disabled:after:absolute disabled:after:left-0 disabled:after:top-0 disabled:after:rounded-md disabled:cursor-not-allowed">
                             <img className="w-full h-full rounded-md" src={`${process.env.PUBLIC_URL}/img/perf_1_img/2greenTriangles.jpg`} />
 
                         </button>
-                        <button onClick={() => checkImage(3)} type="button" className="w-20 h-20">
+                        <button disabled={result !== ""}  onClick={() => checkImage({ shape: 'cross', number: 3, color: 'blue' })} type="button" className="w-20 h-20 relative disabled:after:content-[''] disabled:after:w-20 disabled:after:h-20 disabled:after:bg-red-500/40 disabled:after:absolute disabled:after:left-0 disabled:after:top-0 disabled:after:rounded-md disabled:cursor-not-allowed">
                             <img className="w-full h-full rounded-md" src={`${process.env.PUBLIC_URL}/img/perf_1_img/3blueCrosses.jpg`} />
                         </button>
 
-                        <button onClick={() => checkImage(4)} type="button" className="w-20 h-20">
+                        <button disabled={result !== ""}  onClick={() => checkImage({ shape: 'star', number: 4, color: 'yellow' })} type="button" className="w-20 h-20 relative disabled:after:content-[''] disabled:after:w-20 disabled:after:h-20 disabled:after:bg-red-500/40 disabled:after:absolute disabled:after:left-0 disabled:after:top-0 disabled:after:rounded-md disabled:cursor-not-allowed">
                             <img className="w-full h-full rounded-md" src={`${process.env.PUBLIC_URL}/img/perf_1_img/4yellowStars.jpg`} />
                         </button>
 
@@ -146,6 +277,25 @@ export default function PerfTask1() {
                 </div>
             )}
 
+            {started && taskDone && (
+                <div className="flex bg-white w-full p-4 rounded-md shadow-md flex-col items-start gap-2">
+                    <div className="bg-[#5068cb]/20 rounded-full my-2 px-2.5 py-1.5 ">
+                        <h5 className="text-lg text-gradient">Sonuçlar</h5>
+                    </div>
+                    <div>
+                        <p><b>Toplam Soru:</b> {answers.length} </p>
+                        <p><b>İlk Seferde Doğru Tahmin:</b> {answers.filter(item => item.status).length} </p>
+                        <p><b>İlk Seferde Yanlış Tahmin:</b> {answers.filter(item => !item.status).length} </p>
+                        <p><b>Toplam Tahmin:</b> {answers.length + answers.filter(item => item.subGuess).length} </p>
+                        <p><b>Yanlış Tahmin:</b> {answers.filter(item => item.subGuess?.filter(item => !item.status)).length} </p>
+                        <p><b>Doğru Tahmin:</b> {answers.filter(item => item.status).length + answers.filter(item => item.subGuess?.filter(item => item.status)).length} </p>
+                    </div>
+                    <button onClick={() => navigate('/')} type="button" className="bg-[#4caf50] rounded-full px-4 py-1.5 text-white hover:bg-[#4caf50]/80 transition-all  flex-none">
+                       Ana Ekrana Dön
+                    </button>
+                </div>
+            )}
+
             <IconButton style={{ position: "fixed", background: "#5068cb", color: "white", bottom: 10, right: 10, zIndex: 10, height: "60px", width: "60px" }} onClick={toggleDrawer(true)}>
                 <Info />
             </IconButton>
@@ -154,36 +304,21 @@ export default function PerfTask1() {
                 open={drawer}
                 onClose={toggleDrawer(false)}>
                 <TableContainer className="flex items-start justify-center w-full h-[400px] overflow-auto" component={Paper}>
-                    <Table stickyHeader sx={{ maxWidth: 500, overflow: "auto" }} aria-label="simple table">
+                    <Table stickyHeader sx={{ maxWidth: 600, overflow: "auto" }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Soru</TableCell>
+                                <TableCell>#</TableCell>
+                                <TableCell>Kural</TableCell>
                                 <TableCell>Şekil</TableCell>
                                 <TableCell align="right">Sayı</TableCell>
                                 <TableCell align="right">Renk</TableCell>
-                                <TableCell align="right">Cevap</TableCell>
-                                <TableCell align="right">Sonuç</TableCell>
+                                <TableCell align="right">Cevap S.</TableCell>
                                 <TableCell align="right">Süre</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {answers.map((row, key) => (
-                                <TableRow
-                                    key={key}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell component="th" scope="row">
-                                        {key + 1}
-                                    </TableCell>
-                                    <TableCell component="th" scope="row">
-                                        {row.shape}
-                                    </TableCell>
-                                    <TableCell align="right">{row.number}</TableCell>
-                                    <TableCell align="right">{row.color}</TableCell>
-                                    <TableCell align="right">{row.guess}</TableCell>
-                                    <TableCell align="right">{row.status ? 'Doğru' : 'Yanlış'}</TableCell>
-                                    <TableCell align="right">{row.time} ms</TableCell>
-                                </TableRow>
+                                <Row key={key} index={key + 1} row={row} />
                             ))}
                         </TableBody>
                     </Table>
@@ -191,4 +326,112 @@ export default function PerfTask1() {
             </Drawer>
         </section>
     )
+}
+
+
+
+function Row(props: { row: TAnswers, index: number }) {
+    const { row, index } = props;
+    const [open, setOpen] = useState(false);
+
+    return (
+        <React.Fragment>
+            <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+                <TableCell>
+                    <div className="flex items-center justify-center">
+                        {index}
+                        <IconButton
+                            aria-label="expand row"
+                            size="small"
+                            onClick={() => setOpen(!open)}
+                        >
+                            {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                        </IconButton>
+
+                    </div>
+                </TableCell>
+                <TableCell component="th" scope="row">
+                    {row.rule}
+                </TableCell>
+                <TableCell align="right">{row.shape}</TableCell>
+                <TableCell align="right">{row.number}</TableCell>
+                <TableCell align="right">{row.color}</TableCell>
+                <TableCell align="right">{row.subGuess?.length ?? 1}</TableCell>
+                <TableCell align="right">{row.time.toFixed(4)} ms</TableCell>
+
+            </TableRow>
+            <TableRow>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Box sx={{ margin: 1 }}>
+                            {row.subGuess && row.subGuess?.length > 0 ? (
+                                <>
+                                    <Typography variant="h6" gutterBottom component="div">
+                                        Diğer Tahminler
+                                    </Typography>
+                                    <Table size="small" aria-label="purchases">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Şekil</TableCell>
+                                                <TableCell>Renk</TableCell>
+                                                <TableCell align="right">Sayı</TableCell>
+                                                <TableCell align="right">Sonuç</TableCell>
+                                                <TableCell align="right">Süre</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {row.subGuess?.map((subGuess, key) => (
+                                                <TableRow key={key}>
+                                                    <TableCell component="th" scope="row">
+                                                        {subGuess.guess.shape}
+                                                    </TableCell>
+                                                    <TableCell>{subGuess.guess.color}</TableCell>
+                                                    <TableCell align="right">{subGuess.guess.number}</TableCell>
+                                                    <TableCell align="right">{subGuess.status ? 'Doğru' : 'Yanlış'}</TableCell>
+                                                    <TableCell align="right">
+                                                        {subGuess.time.toFixed(4)} ms
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </>
+                            ) : (
+                                <>
+                                    <Typography variant="h6" gutterBottom component="div">
+                                        Tahmin
+                                    </Typography>
+                                    <Table size="small" aria-label="purchases">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Şekil</TableCell>
+                                                <TableCell>Renk</TableCell>
+                                                <TableCell align="right">Sayı</TableCell>
+                                                <TableCell align="right">Sonuç</TableCell>
+                                                <TableCell align="right">Süre</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            <TableRow >
+                                                <TableCell component="th" scope="row">
+                                                    {row.guess.shape}
+                                                </TableCell>
+                                                <TableCell>{row.guess.color}</TableCell>
+                                                <TableCell align="right">{row.guess.number}</TableCell>
+                                                <TableCell align="right">{row.status ? 'Doğru' : 'Yanlış'}</TableCell>
+                                                <TableCell align="right">
+                                                    {row.time.toFixed(4)} ms
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </>
+                            )}
+
+                        </Box>
+                    </Collapse>
+                </TableCell>
+            </TableRow>
+        </React.Fragment>
+    );
 }

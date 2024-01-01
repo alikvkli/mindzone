@@ -32,7 +32,6 @@ export default function Register() {
                     </div>
                     <TextField id="password" fullWidth label="Şifre" variant="outlined" />
                     <TextField id="age" fullWidth label="Yaş" variant="outlined" />
-                    <TextField id="salary" fullWidth label="Maddi Durum" variant="outlined" />
 
                     <div className='flex w-full gap-2'>
                         <FormControl fullWidth>
@@ -60,9 +59,22 @@ export default function Register() {
                                 <MenuItem value="Ön Lisans">Ön Lisans</MenuItem>
                                 <MenuItem value="Lisans">Lisans</MenuItem>
                                 <MenuItem value="Yüksek Lisans">Yüksek Lisans</MenuItem>
+                                <MenuItem value="Doktora">Doktora</MenuItem>
                             </Select>
                         </FormControl>
                     </div>
+                    <FormControl fullWidth>
+                        <InputLabel id="illness-1">Fiziksel - Kronik Rahatsızlıklar</InputLabel>
+                        <Select
+                            labelId="illness-1"
+                            id="illness-1"
+                            value={education}
+                            label="Fiziksel - Kronik Rahatsızlıklar"
+                            onChange={handleEducationChange}>
+                            <MenuItem value="Evet">Evet</MenuItem>
+                            <MenuItem value="Hayır">Hayır</MenuItem>
+                        </Select>
+                    </FormControl>
 
                     <div className='flex w-full gap-2'>
                         <TextField
@@ -84,12 +96,12 @@ export default function Register() {
                     </div>
 
                     <FormControl fullWidth>
-                        <InputLabel id="education">Hangi yol ile iletişime geçelim?</InputLabel>
+                        <InputLabel id="education">Size aşağıdakilerden hangisiyle ulaşmamızı tercih edersiniz?</InputLabel>
                         <Select
                             labelId="education"
                             id="education"
                             value={education}
-                            label="Hangi yol ile iletişime geçelim?"
+                            label="Size aşağıdakilerden hangisiyle ulaşmamızı tercih edersiniz?"
                             onChange={handleEducationChange}>
                             <MenuItem value="Telefon - Arama">Telefon - Arama</MenuItem>
                             <MenuItem value="Telefon - Whatsapp">Telefon - Whatsapp</MenuItem>
