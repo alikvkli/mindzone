@@ -48,11 +48,11 @@ const Calculator: FC<TCalculator> = (props) => {
 
             <div className="flex items-center gap-4 justify-between mt-4">
                 <button onClick={clearPreviousNumber} type="button" className="bg-[#4caf50] text-white rounded-full px-4 py-1 flex items-center justify-center gap-1.5 flex-none">
-                    Clear
+                    Temizle
                     <FaDeleteLeft />
                 </button>
                 <button onClick={checkNumbers} type="button" className="bg-[#4caf50] text-white rounded-full px-4 py-1">
-                    Continue
+                    Devam
                 </button>
             </div>
         </div>

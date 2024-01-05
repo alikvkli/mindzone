@@ -9,11 +9,11 @@ export default function Task2() {
     const [taskDone, setTaskDone] = useState(false);
 
 
-    useEffect(() => {
-        if (step.task !== 1) {
-            navigate(`/week/${step.week}/task-${step.task}`)
-        }
-    }, [step])
+    // useEffect(() => {
+    //     if (step.task !== 1) {
+    //         navigate(`/week/${step.week}/task-${step.task}`)
+    //     }
+    // }, [step])
 
     const handleStart = () => {
         setStarted(true)
@@ -24,11 +24,11 @@ export default function Task2() {
             <div className="flex w-full bg-white p-4 rounded-md shadow-md items-center justify-between">
                 <div>
                     <h1 className="text-3xl text-gradient">{appName}</h1>
-                    <h5 className="text-lg text-gray-500">Week 1 / Cognitive Flexibility</h5>
+                    <h5 className="text-lg text-gray-500">Hafta 1 / Cognitive Flexibility</h5>
                 </div>
                 {!started && (
                     <button onClick={handleStart} type="button" className="bg-[#4caf50] rounded-full px-4 py-1.5 text-white hover:bg-[#4caf50]/80 transition-all  flex-none">
-                        Start
+                        Başla
                     </button>
                 )}
 
@@ -43,49 +43,22 @@ export default function Task2() {
             {!started && (
                 <div className="flex bg-white w-full p-4 rounded-md shadow-md flex-col items-start gap-2">
                     <div className="bg-[#5068cb]/20 rounded-full my-2 px-2.5 py-1.5 ">
-                        <h5 className="text-lg text-gradient">Task 2  - Description</h5>
+                        <h5 className="text-lg text-gradient">Takip etmeniz gereken yönergeler</h5>
                     </div>
-                    <p>In this demonstration you will learn about cued task switching.Next,Cued task switching differs from the alternate run type of task switching.<br /> Next, you will read the instructions and then do two different tasks that
-                        are regularly switched between.The level of difficulty with switching depends on<br /> the time between the cue and the imperative stimulus (the one you need to respond to immediately)</p>
-                    <hr className="w-full h-[0.5px] my-2 bg-gray-400" />
-                    <div className="bg-[#5068cb]/20 rounded-full my-2 px-2.5 py-1.5 ">
-                        <h5 className="text-lg text-gradient">Introduction</h5>
-                    </div>
-                    <div className="flex max-md:flex-col w-full items-start justify-normal gap-8">
-                        <div>
-                            <p className="font-semibold text-gradient">Instructions 1</p>
-                            <hr className="w-full h-[0.5px] my-2 bg-gray-400" />
-                            <p>In the <b>shape</b> task:</p>
-                            <p>If you see a circle, press the <b>b</b> key</p>
-                            <p>If you see a rectangle, press the <b>n</b> key</p>
-                            <br />
-                            <p>In the <b>color</b> task:</p>
-                            <p>If the stimulus is yellow, press the <b>b</b> key</p>
-                            <p>If the stimulus is blue, press the <b>n</b> key</p>
-                        </div>
-                        <div>
-                            <p className="font-semibold text-gradient">Instructions 2</p>
-                            <hr className="w-full h-[0.5px] my-2 bg-gray-400" />
-                            <p>In each trial of a few seconds, you will first see a +,<br /> followed by the word "shape" or "color".<br /> Next, you will see a yellow or blue circle or square.</p>
-                            <br />
-                            <p>Respond in accordance to the task instruction.</p>
-                        </div>
-                        <div>
-                            <p className="font-semibold text-gradient">Instructions 3</p>
-                            <hr className="w-full h-[0.5px] my-2 bg-gray-400" />
-                            <p>Example:</p>
-                            <p className="ml-2 text-red-900 bg-green-600 w-fit px-2 py-0.5">SHAPE</p>
-                            <p>followed by:</p>
-                            <div className="ml-2 rounded-full w-8 h-8 bg-blue-600"></div>
-                            <p>Press the b key, because in the shape task,<br/> you need to respond with the b key to circles.The color is irrelevant<br/> when doing the shape task.</p>
-                            <p>Respond in accordance to the task instruction.</p>
-                        </div>
-                        <div>
-                            <p className="font-semibold text-gradient">Instructions 4</p>
-                            <hr className="w-full h-[0.5px] my-2 bg-gray-400" />
-                            <p>That is all! You can now "browse" back to the previous<br/> screen to be reminded of the exact instructions.<br/> Just go back and forth with the arrow keys of your keyboard.<br/> Press the key "q" from the keyboard to start with the task.</p>
-                        </div>
-                    </div>
+                    <p>Bu egzersizde ekranda harfler ve sayılar göreceksiniz. Takip etmeniz gereken birkaç kural belirledik ve bunlara göre yanıtlamanız gerekmektedir.<br />
+                        4'e bölünmüş ekran göreceksiniz.
+                    </p>
+                    <ul className="ml-8">
+                        <li className="list-decimal">Bu ekranda harflerin yukarıda olması, sayıların aşağıda olması gerekmektedir.</li>
+                        <li className="list-decimal">Sessiz harf ve tek sayı ise X butonuna basmanız gerekirken,</li>
+                        <li className="list-decimal">Sesli harf ve çift sayı ise Y butonuna basılması gerekmektedir.</li>
+                    </ul>
+                    <p>Ör: G8 sayısı ekranda göründüğünde sol yukarıda ise X tuşuna basılacaktır.Sağ aşağıda göründüyse bu sefer çift sayı 8 olduğu için ona odaklanılarak Y tuşuna basılacaktır.</p>
+                    <p>Ör: G8 sayısı üstte göründüyse harfe odaklanılacak ve X'e basılacaktır. Ama aşağıda görünürse çift sayı olduğu için Y'ye basılacaktır. </p>
+                    <p className="font-semibold mt-4">Tek harf örneği (15 Tane)</p>
+                    <p>Şimdi daha iyi anlamak için sadece harfleri deneyelim. Sessiz harf ise X, sesli harf ise Y'ye basın.</p>
+                    <p className="font-semibold mt-4">Tek sayı örneği (15 Tane)</p>
+                    <p>Şimdi daha iyi anlamak için sadece sayıları deneyelim. Tek sayı ise X, çift sayı ise Y'ye basın.</p>
                 </div>
             )}
 

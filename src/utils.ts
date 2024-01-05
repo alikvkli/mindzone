@@ -43,3 +43,23 @@ export const generateRandomImage = (): TRandomImage => {
         rule: randomRule as never,
     };
 }
+
+
+export const generateRandomSequence = (sequenceLength: number = 1, sequences: string[]): string[] => {
+    const alphabet = 'ABCDEHIKLMOPRST';
+    const newSequence = [];
+    for (let i = 0; i < sequenceLength; i++) {
+        const randomIndex = Math.floor(Math.random() * alphabet.length);
+        newSequence.push(alphabet[randomIndex]);
+    }
+
+    if (sequences.length >= 4) {
+        const lastFourElements = sequences.slice(-4);
+        if (Math.random() < 0.5) {
+            const randomIndex = Math.floor(Math.random() * lastFourElements.length);
+            newSequence.push(lastFourElements[randomIndex]);
+        }
+
+    }
+    return newSequence;
+};

@@ -109,7 +109,7 @@ export default function Task1() {
             const num8 = generateRandomNumber([parseInt(num1), parseInt(num2), parseInt(num3), parseInt(num4), parseInt(num5), parseInt(num6), parseInt(num7)]);
             numberLength = 8;
             setNumbers([num1, num2, num3, num4, num5, num6, num7, num8]);
-        } else if (qCount >= 21 && qCount < 24) {
+        } else if (qCount >= 21 && qCount < 23) {
             const num1 = generateRandomNumber();
             const num2 = generateRandomNumber([parseInt(num1)]);
             const num3 = generateRandomNumber([parseInt(num1), parseInt(num2)]);
@@ -123,7 +123,7 @@ export default function Task1() {
             setNumbers([num1, num2, num3, num4, num5, num6, num7, num8, num9]);
         }
 
-        if (qCount < 24) {
+        if (qCount < 23) {
             let showNumberInterval: NodeJS.Timeout;
             showNumberInterval = setInterval(() => {
                 setCurrentNumberIndex((prevIndex) => {
@@ -219,7 +219,7 @@ export default function Task1() {
         setTaskDone(false);
         setStats({ correctCount: 0, wrongCount: 0 });
         resetTimer();
-        navigate('/week/1/task-2')
+        navigate('/hafta/1/task-2')
     }
     const [drawer, setDrawer] = useState<boolean>(false);
     const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -240,11 +240,11 @@ export default function Task1() {
             <div className="flex w-full bg-white p-4 rounded-md shadow-md items-center justify-between">
                 <div>
                     <h1 className="text-3xl text-gradient">{appName}</h1>
-                    <h5 className="text-lg text-gray-500">Week 1 / Working Memory</h5>
+                    <h5 className="text-lg text-gray-500">Hafta 1 / Digit Span</h5>
                 </div>
                 {!started && (
                     <button onClick={handleStart} type="button" className="bg-[#4caf50] rounded-full px-4 py-1.5 text-white hover:bg-[#4caf50]/80 transition-all  flex-none">
-                        Start
+                        Başlat
                     </button>
                 )}
 
@@ -257,7 +257,7 @@ export default function Task1() {
 
                 {started && taskDone && (
                     <div className="bg-[#4caf50] rounded-full my-2 px-2.5 py-1.5 ">
-                        <h5 className="text-lg text-white">Task 1  - Done</h5>
+                        <h5 className="text-lg text-white">Tamamlandı</h5>
                     </div>
                 )}
             </div>
@@ -265,28 +265,31 @@ export default function Task1() {
             {!started && (
                 <div className="flex bg-white w-full p-4 rounded-md shadow-md flex-col items-start gap-2">
                     <div className="bg-[#5068cb]/20 rounded-full my-2 px-2.5 py-1.5 ">
-                        <h5 className="text-lg text-gradient">Task 1  - Description</h5>
+                        <h5 className="text-lg text-gradient">Takip etmeniz gereken yönergeler:</h5>
                     </div>
-                    <p>In this experiment you will try to memorize numbers you see on the screen. All numbers are between 0 and 9.</p>
-                    <p>We call such numbers <b>digits</b></p>
-                    <p >You will see a sequence of <b>digits</b>, one after another.</p>
-                    <p>Once you have remembered the digits, you need to repeat them.</p>
-                    <p>If you make a mistake, you can <span className="bg-[#4caf50] text-white text-sm rounded-full px-2">Clear</span> the last one you entered.</p>
-                    <p>After you have entered all the letters, you click <span className="bg-[#4caf50] text-sm text-white rounded-full px-2">Continue</span></p>
+                    <p>Bu egzersizde ekranda gördüğünüz sayıları ezberlemeye çalışacaksınız. Tüm sayılar 0 ile 9 arasındadır.</p>
+                    <p>Bu tür sayılara <b>rakam</b> diyoruz.</p>
+                    <p>Birbiri ardına bir dizi <b>rakam</b> göreceksiniz.</p>
+                    <p>Rakamları hatırladıktan sonra sizlerden o rakamları sırayla yazmanızı isteyeceğiz.</p>
+                    <p>Ör. 1 - 2 - 3 - 4 = 1234 yazmanız gerekmektedir.</p>
+                    <p>Tüm sayıları girdikten sonra <span className="bg-[#4caf50] text-white text-sm rounded-full px-2">Devam</span> butonuna tıklayarak sonraki admına geçeceksiniz.</p>
+                    <p>Rakamları girdikten sonra yanıtınızın doğru olup olmadığı söylenecektir.</p>
 
-                    <p className="mt-2">The computer will tell you if you remembered the letters correctly or not.</p>
+                    <p className="mt-2">Hadi başlayalım!</p>
                 </div>
             )}
             {started && !showNumbers && !taskDone && (
-                <div className="bg-black flex flex-col items-center justify-center w-full h-full min-h-[500px]">
+                <div className="bg-black mb-4 flex flex-col items-center justify-center w-full h-full min-h-[500px]">
                     {isEqual === 2 && (
-                        <p className="text-[#4caf50] my-2">Correct!</p>
+                        <p className="text-[#4caf50] text-3xl my-2">Doğru!</p>
                     )}
                     {isEqual === 1 && (
-                        <p className="text-red-500 my-2">Wrong!</p>
+                        <p className="text-red-500 text-3xl my-2">Yanlış!</p>
                     )}
 
-                    <Calculator checkNumbers={checkNumbers} selectedNumbers={selectedNumbers} setSelectedNumbers={setSelectedNumbers} />
+                    {isEqual === 0 && <Calculator checkNumbers={checkNumbers} selectedNumbers={selectedNumbers} setSelectedNumbers={setSelectedNumbers} />
+                    }
+
                 </div>
             )}
 
@@ -298,17 +301,16 @@ export default function Task1() {
 
             {started && showNumbers && taskDone && (
                 <div className="flex flex-col items-start gap-2">
-                    <p>Time : <b>{time} sn.</b> </p>
                     <p>Correct count: <b>{stats.correctCount}</b></p>
                     <p>Wrong count: <b>{stats.wrongCount}</b></p>
 
                     <button onClick={handleNextTask} type="button" className="bg-[#5068cb] rounded-full px-4 py-1.5 text-white hover:bg-[#5068cb]/80 transition-all  flex-none">
-                        Next Task
+                        Sıradaki Oyun
                     </button>
                 </div>
             )}
 
-            <IconButton style={{ position: "fixed", background: "#5068cb", color: "white", bottom: 10, right: 10, zIndex: 10, height:"60px",width: "60px" }} onClick={toggleDrawer(true)}>
+            <IconButton style={{ position: "fixed", background: "#5068cb", color: "white", bottom: 10, right: 10, zIndex: 10, height: "60px", width: "60px" }} onClick={toggleDrawer(true)}>
                 <Info />
             </IconButton>
             <Drawer
@@ -316,7 +318,7 @@ export default function Task1() {
                 open={drawer}
                 onClose={toggleDrawer(false)}>
                 <TableContainer className="flex items-start justify-center h-[400px] overflow-auto" component={Paper}>
-                    <Table stickyHeader  sx={{ maxWidth: 650,overflow: "auto" }} aria-label="simple table">
+                    <Table stickyHeader sx={{ maxWidth: 650, overflow: "auto" }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell>Index</TableCell>
@@ -340,7 +342,7 @@ export default function Task1() {
                                     </TableCell>
                                     <TableCell align="right">{row.answer}</TableCell>
                                     <TableCell align="right">{row.status ? 'Doğru' : 'Yanlış'}</TableCell>
-                                    <TableCell align="right">{row.time} ms</TableCell>
+                                    <TableCell align="right">{row.time.toFixed(6)} ms</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

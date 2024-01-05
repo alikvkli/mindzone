@@ -43,6 +43,8 @@ const Header: React.FC = () => {
 
     const menuItems = [
         { text: 'Performans 1', link: "/performans/task-1" },
+        { text: 'Performans 2', link: "/performans/task-2" },
+        { text: 'Performans 3', link: "/performans/task-3" },
         { text: 'Giriş Yap', link: '/giris-yap' },
         { text: 'Kayıt Ol', link: '/kayit-ol' },
         { text: 'Biz Kimiz', link: '/hakkimizda' },

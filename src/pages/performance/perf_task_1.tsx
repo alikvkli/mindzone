@@ -220,7 +220,7 @@ export default function PerfTask1() {
 
                 {started && taskDone && (
                     <div className="bg-[#4caf50] rounded-full my-2 px-2.5 py-1.5 ">
-                        <h5 className="text-lg text-white">Wisconsin Card Sorting  - Done</h5>
+                        <h5 className="text-lg text-white">Tamamlandı</h5>
                     </div>
                 )}
             </div>
@@ -237,7 +237,7 @@ export default function PerfTask1() {
             )}
 
             {started && !taskDone && (
-                <div className="bg-black flex flex-col relative items-center justify-around w-full h-full min-h-[500px]">
+                <div className="bg-black flex flex-col relative items-center justify-around w-full mb-4 h-full min-h-[500px]">
 
                     <div className="rounded-md grid grid-cols-2 md:grid-cols-4 gap-4 items-center justify-center">
 
@@ -267,7 +267,7 @@ export default function PerfTask1() {
                     )}
 
                     {result !== "" && (
-                        <p className={classNames('my-2', {
+                        <p className={classNames('my-2 text-3xl', {
                             'text-[#4caf50]': result === "Doğru!",
                             'text-red-500': result === "Yanlış!"
                         })}>{result}</p>

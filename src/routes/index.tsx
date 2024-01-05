@@ -7,6 +7,8 @@ import About from "../pages/about"
 import Task1 from "../pages/weeks/week-1/task_1"
 import Task2 from "../pages/weeks/week-1/task_2"
 import PerfTask1 from "../pages/performance/perf_task_1"
+import PerfTask2 from "../pages/performance/perf_task_2"
+import PerfTask3 from "../pages/performance/perf_task_3"
 
 export const router = createBrowserRouter([
     {
@@ -40,6 +42,14 @@ export const router = createBrowserRouter([
             {
                 path: "performans/task-1",
                 element:<PerfTask1/>
+            },
+            {
+                path: "performans/task-2",
+                element:<PerfTask2/>
+            },
+            {
+                path: "performans/task-3",
+                element:<PerfTask3/>
             }
         ]
     }
