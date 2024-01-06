@@ -300,7 +300,6 @@ export default function PerfTask3() {
                         {showSequence && result === "" && (
                             <div className="bg-yellow-500 text-white h-14 min-w-14 w-fit flex-none text-4xl rounded-sm py-4 px-8 flex  items-center justify-center">
                                 {sequence[round].text}
-                                {sequence[round].id}
                             </div>
                         )}
                         {result.toLowerCase().includes("hata") && (

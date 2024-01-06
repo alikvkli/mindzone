@@ -100,14 +100,20 @@ export default function PerfTask4() {
             )}
 
             {started && !taskDone && (
-                <div className={classNames(' flex flex-col p-4 relative items-center justify-around w-full  mb-4 h-full min-h-[500px]',{
-                    'bg-[#f5f9ff]' : loading,
-                    'bg-black' : !loading
+                <div className={classNames(' flex flex-col p-4 relative items-center justify-around w-full  mb-4 h-full min-h-[500px]', {
+                    'bg-[#f5f9ff]': loading,
+                    'bg-black': !loading
                 })}>
 
                     <div className="flex flex-col items-center justify-center gap-2">
 
-                        {loading ? <Lottie style={{ height: "375px", width: "100%", flexShrink: 0 }} animationData={brainAnimation} /> : <img className="w-fit h-[375px] rounded-md" src={`${process.env.PUBLIC_URL}/img/self_assesment/${sequences[seqIndex].path}`} />}
+                        {loading ? (
+                            <Lottie style={{ height: "375px", width: "100%", flexShrink: 0 }} animationData={brainAnimation} />
+                        ) : (
+                            <img
+                                className="w-fit md:h-[375px max-md:h-[300px] rounded-md"
+                                src={`${process.env.PUBLIC_URL}/img/self_assesment/${sequences[seqIndex].path}.JPG`} />
+                        )}
 
                         <div className="bg-white/80 rounded-md flex flex-wrap items-center justify-center p-2 max-md:px-0 gap-2">
 

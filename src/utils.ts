@@ -70,123 +70,123 @@ export const generateSelfManikin = () => {
     const data = [
         {
             "emotion": "negative",
-            "path": "negative/1.jpg"
+            "path": "negative/1"
         },
         {
             "emotion": "negative",
-            "path": "negative/2.jpg"
+            "path": "negative/2"
         },
         {
             "emotion": "negative",
-            "path": "negative/3.jpg"
+            "path": "negative/3"
         },
         {
             "emotion": "negative",
-            "path": "negative/4.jpg"
+            "path": "negative/4"
         },
         {
             "emotion": "negative",
-            "path": "negative/5.jpg"
+            "path": "negative/5"
         },
         {
             "emotion": "negative",
-            "path": "negative/6.jpg"
+            "path": "negative/6"
         },
         {
             "emotion": "negative",
-            "path": "negative/7.jpg"
+            "path": "negative/7"
         },
         {
             "emotion": "negative",
-            "path": "negative/8.jpg"
+            "path": "negative/8"
         },
         {
             "emotion": "negative",
-            "path": "negative/9.jpg"
+            "path": "negative/9"
         },
         {
             "emotion": "negative",
-            "path": "negative/10.jpg"
+            "path": "negative/10"
         },
         {
             "emotion": "negative",
-            "path": "negative/11.jpg"
+            "path": "negative/11"
         },
         {
             "emotion": "negative",
-            "path": "negative/12.jpg"
+            "path": "negative/12"
         },
         {
             "emotion": "negative",
-            "path": "negative/13.jpg"
+            "path": "negative/13"
         },
         {
             "emotion": "negative",
-            "path": "negative/14.jpg"
+            "path": "negative/14"
         },
         {
             "emotion": "negative",
-            "path": "negative/15.jpg"
+            "path": "negative/15"
         },
         {
             "emotion": "negative",
-            "path": "negative/16.jpg"
+            "path": "negative/16"
         },
         {
             "emotion": "negative",
-            "path": "negative/17.jpg"
+            "path": "negative/17"
         },
         {
             "emotion": "negative",
-            "path": "negative/18.jpg"
+            "path": "negative/18"
         },
         {
             "emotion": "notr",
-            "path": "notr/1.jpg"
+            "path": "notr/1"
         },
         {
             "emotion": "notr",
-            "path": "notr/2.jpg"
+            "path": "notr/2"
         },
         {
             "emotion": "notr",
-            "path": "notr/3.jpg"
+            "path": "notr/3"
         },
         {
             "emotion": "notr",
-            "path": "notr/4.jpg"
+            "path": "notr/4"
         },
         {
             "emotion": "positive",
-            "path": "positive/1.jpg"
+            "path": "positive/1"
         },
         {
             "emotion": "positive",
-            "path": "positive/2.jpg"
+            "path": "positive/2"
         },
         {
             "emotion": "positive",
-            "path": "positive/3.jpg"
+            "path": "positive/3"
         },
         {
             "emotion": "positive",
-            "path": "positive/4.jpg"
+            "path": "positive/4"
         },
         {
             "emotion": "positive",
-            "path": "positive/5.jpg"
+            "path": "positive/5"
         },
         {
             "emotion": "positive",
-            "path": "positive/6.jpg"
+            "path": "positive/6"
         },
         {
             "emotion": "positive",
-            "path": "positive/7.jpg"
+            "path": "positive/7"
         },
         {
             "emotion": "positive",
-            "path": "positive/8.jpg"
+            "path": "positive/8"
         }
     ];
     for (let i = data.length - 1; i > 0; i--) {
