@@ -208,7 +208,7 @@ export default function PerfTask3() {
             setRound(prevState => prevState + 1);
             setShowSequence(false);
             clearInterval(showSequenceInterval);
-        }, sequence[round + 1].value === "G" ? 1000 : _LETTER_SHOW_TIME)
+        }, sequence[round + 1]?.value === "G" ? 1000 : _LETTER_SHOW_TIME)
     }
 
     useEffect(() => {
