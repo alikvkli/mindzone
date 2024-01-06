@@ -63,3 +63,140 @@ export const generateRandomSequence = (sequenceLength: number = 1, sequences: st
     }
     return newSequence;
 };
+
+
+export const generateSelfManikin = () => {
+
+    const data = [
+        {
+            "emotion": "negative",
+            "path": "negative/1.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/2.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/3.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/4.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/5.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/6.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/7.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/8.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/9.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/10.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/11.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/12.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/13.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/14.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/15.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/16.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/17.jpg"
+        },
+        {
+            "emotion": "negative",
+            "path": "negative/18.jpg"
+        },
+        {
+            "emotion": "notr",
+            "path": "notr/1.jpg"
+        },
+        {
+            "emotion": "notr",
+            "path": "notr/2.jpg"
+        },
+        {
+            "emotion": "notr",
+            "path": "notr/3.jpg"
+        },
+        {
+            "emotion": "notr",
+            "path": "notr/4.jpg"
+        },
+        {
+            "emotion": "positive",
+            "path": "positive/1.jpg"
+        },
+        {
+            "emotion": "positive",
+            "path": "positive/2.jpg"
+        },
+        {
+            "emotion": "positive",
+            "path": "positive/3.jpg"
+        },
+        {
+            "emotion": "positive",
+            "path": "positive/4.jpg"
+        },
+        {
+            "emotion": "positive",
+            "path": "positive/5.jpg"
+        },
+        {
+            "emotion": "positive",
+            "path": "positive/6.jpg"
+        },
+        {
+            "emotion": "positive",
+            "path": "positive/7.jpg"
+        },
+        {
+            "emotion": "positive",
+            "path": "positive/8.jpg"
+        }
+    ];
+    for (let i = data.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+
+        let temp = data[i];
+        data[i] = data[j];
+        data[j] = temp;
+    }
+
+    return data;
+
+}

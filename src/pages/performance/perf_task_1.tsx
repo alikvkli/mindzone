@@ -20,11 +20,6 @@ type TAnswers = Pick<TRandomImage, 'shape' | 'number' | 'color' | 'rule' | 'id'>
 }
 
 
-
-
-
-
-
 export default function PerfTask1() {
     const navigate = useNavigate();
     const { appName, step } = useAppSelector(state => state.app);
@@ -35,11 +30,11 @@ export default function PerfTask1() {
     const [result, setResult] = useState<string>("");
     const { time, startTimer, stopTimer, resetTimer } = useTimer();
 
-    useEffect(() => {
-        if (step.task !== 1) {
-            navigate(`/week/${step.week}/task-${step.task}`)
-        }
-    }, [step])
+    // useEffect(() => {
+    //     if (step.task !== 1) {
+    //         navigate(`/week/${step.week}/task-${step.task}`)
+    //     }
+    // }, [step])
 
     const handleStart = () => {
         startTimer();
