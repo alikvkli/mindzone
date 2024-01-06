@@ -72,14 +72,10 @@ export default function PerfTask4() {
     return (
         <section className="w-full h-full flex flex-col items-start justify-center md:px-14 max-md:px-4 mt-4" >
             <div className="flex w-full bg-white p-4 rounded-md shadow-md items-center justify-between">
-
-
-                {!isMobile && (
-                    <div>
-                        <h1 className="text-3xl text-gradient">{appName}</h1>
-                        <h5 className="text-lg text-gray-500">Self-Assessment Manikin</h5>
-                    </div>
-                )}
+                <div>
+                    <h1 className="text-3xl text-gradient">{appName}</h1>
+                    <h5 className="text-lg text-gray-500">Self-Assessment Manikin</h5>
+                </div>
 
                 {!started && (
                     <>
@@ -96,6 +92,7 @@ export default function PerfTask4() {
                     </div>
                 )}
             </div>
+
             <hr className="w-full h-[0.5px] my-2 bg-gray-400" />
             {!started && (
                 <div className="flex bg-white w-full p-4 rounded-md shadow-md flex-col items-start gap-2">
