@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useAppSelector } from "../../hooks";
 import { TRandomImage, generateRandomImage, generateRandomSequence, generateSelfManikin } from "../../utils";
 import useTimer from "../../hooks/useTimer";
-import { Box, Collapse, Drawer, FormControl, FormLabel, IconButton, Paper, Radio, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Collapse, Drawer, FormControl, FormLabel, IconButton, Paper, Radio, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useMediaQuery } from "@mui/material";
 import { Info, KeyboardArrowDown, KeyboardArrowUp, Visibility } from "@mui/icons-material";
 import Lottie from "lottie-react";
 import brainAnimation from "../../assets/animations/brain-3.json";
@@ -20,6 +20,7 @@ const sequences = generateSelfManikin();
 
 export default function PerfTask4() {
     const navigate = useNavigate();
+    const isMobile = useMediaQuery('(max-width: 768px)');
     const { appName, step } = useAppSelector(state => state.app);
     const [started, setStarted] = useState<boolean>(false);
     const [taskDone, setTaskDone] = useState(false);
@@ -71,14 +72,21 @@ export default function PerfTask4() {
     return (
         <section className="w-full h-full flex flex-col items-start justify-center md:px-14 max-md:px-4 mt-4" >
             <div className="flex w-full bg-white p-4 rounded-md shadow-md items-center justify-between">
-                <div>
-                    <h1 className="text-3xl text-gradient">{appName}</h1>
-                    <h5 className="text-lg text-gray-500">Self-Assessment Manikin</h5>
-                </div>
+
+
+                {!isMobile && (
+                    <div>
+                        <h1 className="text-3xl text-gradient">{appName}</h1>
+                        <h5 className="text-lg text-gray-500">Self-Assessment Manikin</h5>
+                    </div>
+                )}
+
                 {!started && (
-                    <button onClick={handleStart} type="button" className="bg-[#4caf50] rounded-full px-4 py-1.5 text-white hover:bg-[#4caf50]/80 transition-all  flex-none">
-                        Başla
-                    </button>
+                    <>
+                        <button onClick={handleStart} type="button" className="bg-[#4caf50] rounded-full px-4 py-1.5 text-white hover:bg-[#4caf50]/80 transition-all  flex-none">
+                            Başla
+                        </button>
+                    </>
                 )}
 
 
