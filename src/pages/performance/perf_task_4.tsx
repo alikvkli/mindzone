@@ -111,7 +111,7 @@ export default function PerfTask4() {
                             <Lottie style={{ height: "375px", width: "100%", flexShrink: 0 }} animationData={brainAnimation} />
                         ) : (
                             <img
-                                className="w-fit md:h-[375px max-md:h-[300px] rounded-md"
+                                className="w-fit h-[375px] max-md:h-[300px] rounded-md"
                                 src={`${process.env.PUBLIC_URL}/img/self_assesment/${sequences[seqIndex].path}.JPG`} />
                         )}
 
