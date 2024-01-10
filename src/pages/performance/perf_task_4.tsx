@@ -1,10 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useAppSelector } from "../../hooks";
-import { TRandomImage, generateRandomImage, generateRandomSequence, generateSelfManikin } from "../../utils";
-import useTimer from "../../hooks/useTimer";
-import { Box, Collapse, Drawer, FormControl, FormLabel, IconButton, Paper, Radio, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useMediaQuery } from "@mui/material";
-import { Info, KeyboardArrowDown, KeyboardArrowUp, Visibility } from "@mui/icons-material";
+import { generateSelfManikin } from "../../utils";
+import { Radio, useMediaQuery } from "@mui/material";
 import Lottie from "lottie-react";
 import brainAnimation from "../../assets/animations/brain-3.json";
 import classNames from "classnames";
@@ -21,15 +19,13 @@ const sequences = generateSelfManikin();
 export default function PerfTask4() {
     const navigate = useNavigate();
     const isMobile = useMediaQuery('(max-width: 768px)');
-    const { appName, step } = useAppSelector(state => state.app);
+    const { appName } = useAppSelector(state => state.app);
     const [started, setStarted] = useState<boolean>(false);
     const [taskDone, setTaskDone] = useState(false);
-    const [result, setResult] = useState<string>("");
-    const { time, startTimer, stopTimer, resetTimer } = useTimer();
     const [seqIndex, setSeqIndex] = useState<number>(0);
     const [answers, setAnswers] = useState<TAnswers[]>([]);
-    const [selected, setSelected] = useState<number | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const [selected, setSelected] = useState<number | null>(null);
 
     const handleStart = () => {
         setStarted(true)
@@ -38,34 +34,32 @@ export default function PerfTask4() {
     const handleNext = () => {
         let loadingInterval: NodeJS.Timeout;
 
-        if (seqIndex < 29) {
-            setLoading(true);
-            loadingInterval = setInterval(() => {
-                setLoading(false);
-                setSeqIndex(prevState => prevState + 1);
-                setSelected(null);
-                clearInterval(loadingInterval);
-            }, 1000);
-
-        }
+        setLoading(true);
+        loadingInterval = setInterval(() => {
+            setLoading(false);
+            setSelected(null);
+            setSeqIndex(prevState => prevState + 1);
+            clearInterval(loadingInterval);
+        }, 1000);
     }
 
-    useEffect(() => {
-        console.log(seqIndex);
-        if (seqIndex === 29 && selected !== null) {
-            setTaskDone(true);
-        }
-    }, [seqIndex, selected])
 
     useEffect(() => {
         console.table(answers);
     }, [answers])
 
-    useEffect(() => {
-        if (selected && selected !== 0) {
+
+
+    const handleSelect = (point: number) => {
+        setSelected(point);
+        if (seqIndex + 1 < 30) {
+            setAnswers((prevState) => ([...prevState, { emotion: sequences[seqIndex].emotion, path: sequences[seqIndex].path, point: point }]))
             handleNext();
+        } else {
+            setAnswers((prevState) => ([...prevState, { emotion: sequences[seqIndex].emotion, path: sequences[seqIndex].path, point: point }]))
+            setTaskDone(true);
         }
-    }, [selected]);
+    }
 
 
 
@@ -99,8 +93,10 @@ export default function PerfTask4() {
                     <div className="bg-[#5068cb]/20 rounded-full my-2 px-2.5 py-1.5 ">
                         <h5 className="text-lg text-gradient">Yönergeler</h5>
                     </div>
-                    <p>Ekranda bazı fotoğraflar göreceksiniz. Fotoğrafı gördükten sonra nasıl hissettiğinizi puanlamanızı istiyoruz.</p>
-                    <p><b>(1)</b> çok olumsuzdan <b>(9)</b> çok olumluya şeklinde puanlamanız gerekmektedir.  </p>
+                    <p>Ekranda bazı insan fotoğrafları göreceksiniz. Fotoğrafı gördükten sonra "sizlerin nasıl hissettiğinizi" puanlamanızı istiyoruz.</p>
+                    <p>Bu puanlamayı aşağıdaki 9 küçük şekilli seçenekler üzerinden yapmanız gerekmektedir. Bu küçük insan şekilleri olumsuz hissetmekten olumlu hissetmeye doğru puanlamayı işaret etmektedir.</p>
+                    <p><b>(1)</b> çok olumsuz <b>(5)</b> nötr ve <b>(9)</b> çok olumlu seçeneklerini ifade etmektedir.</p>
+                    <img src={`${process.env.PUBLIC_URL}/img/self_assesment/intro.png`} />
                 </div>
             )}
 
@@ -113,7 +109,7 @@ export default function PerfTask4() {
                     <div className="flex flex-col items-center justify-center gap-2">
 
                         {loading ? (
-                            <Lottie style={{ height: "375px", width: "100%", flexShrink: 0 }} animationData={brainAnimation} />
+                            <Lottie style={{ height: isMobile ? "300px" : "375px", width: "100%", flexShrink: 0 }} animationData={brainAnimation} />
                         ) : (
                             <img
                                 className="w-fit h-[375px] max-md:h-[300px] rounded-md"
@@ -127,8 +123,7 @@ export default function PerfTask4() {
                                     <img
                                         onClick={() => {
                                             if (!loading) {
-                                                setSelected(key + 1)
-                                                setAnswers((prevState) => ([...prevState, { emotion: sequences[seqIndex].emotion, path: sequences[seqIndex].path, point: key + 1 }]))
+                                                handleSelect(key + 1)
                                             }
                                         }}
                                         className={classNames('w-14 h-20 rounded-sm object-cover cursor-pointer', {
@@ -137,10 +132,9 @@ export default function PerfTask4() {
                                         src={`${process.env.PUBLIC_URL}/img/self_assesment/points/${key + 1}.png`} />
                                     <Radio
                                         disabled={loading}
-                                        checked={selected === (key + 1)}
+                                        checked={selected === key + 1}
                                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                                            setSelected(Number(event.target.value))
-                                            setAnswers((prevState) => ([...prevState, { emotion: sequences[seqIndex].emotion, path: sequences[seqIndex].path, point: key + 1 }]))
+                                            handleSelect(Number(event.target.value))
                                         }}
                                         value={key + 1}
                                         name="radio-buttons"

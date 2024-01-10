@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "../../hooks";
 import { TRandomImage, generateRandomImage, generateRandomSequence } from "../../utils";
 import useTimer from "../../hooks/useTimer";
-import { Box, Collapse, Drawer, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, CircularProgress, Collapse, Drawer, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Info, KeyboardArrowDown, KeyboardArrowUp, Visibility } from "@mui/icons-material";
 import classNames from "classnames";
 import React from "react";
@@ -211,9 +211,20 @@ export default function PerfTask3() {
         }, sequence[round + 1]?.value === "G" ? 1000 : _LETTER_SHOW_TIME)
     }
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     useEffect(() => {
         if (round > 0 && round < _MAX_ROUND) {
-            generateSequence();
+            let loadingTimeout: NodeJS.Timeout;
+
+            setLoading(true);
+
+            loadingTimeout = setTimeout(() => {
+                setLoading(false);
+                generateSequence();
+                clearTimeout(loadingTimeout);
+            }, 500);
+
         } else if (round === _MAX_ROUND) {
             setTaskDone(true);
         }
@@ -269,7 +280,7 @@ export default function PerfTask3() {
             <div className="flex w-full bg-white p-4 rounded-md shadow-md items-center justify-between">
                 <div>
                     <h1 className="text-3xl text-gradient">{appName}</h1>
-                    <h5 className="text-lg text-gray-500">Go/No-go</h5>
+                    <h5 className="text-lg text-gray-500">Git/Gitme</h5>
                 </div>
                 {!started && (
                     <button onClick={handleStart} type="button" className="bg-[#4caf50] rounded-full px-4 py-1.5 text-white hover:bg-[#4caf50]/80 transition-all  flex-none">
@@ -288,7 +299,7 @@ export default function PerfTask3() {
             {!started && (
                 <div className="flex bg-white w-full p-4 rounded-md shadow-md flex-col items-start gap-2">
                     <div className="bg-[#5068cb]/20 rounded-full my-2 px-2.5 py-1.5 ">
-                        <h5 className="text-lg text-gradient">Go/No-go  - Description</h5>
+                        <h5 className="text-lg text-gradient">Yönergeler</h5>
                     </div>
                     <p>açıklama</p>
                 </div>
@@ -297,7 +308,7 @@ export default function PerfTask3() {
             {started && !taskDone && (
                 <div className="bg-black flex flex-col relative items-center justify-around w-full  mb-4 h-full min-h-[500px]">
                     <div className="flex flex-col items-center justify-center gap-2">
-                        {showSequence && result === "" && (
+                        {showSequence && result === "" && !loading && (
                             <div className="bg-yellow-500 text-white h-14 min-w-14 w-fit flex-none text-4xl rounded-sm py-4 px-8 flex  items-center justify-center">
                                 {sequence[round].text}
                             </div>
@@ -306,6 +317,12 @@ export default function PerfTask3() {
                             <p className="text-red-600 text-center max-md:text-xl text-3xl ">
                                 {result}
                             </p>
+                        )}
+
+                        {loading && (
+                            <div className="bg-yellow-500 text-white h-14 min-w-14 w-fit flex-none text-4xl rounded-sm py-4 px-8 flex  items-center justify-center">
+                                <CircularProgress style={{color: "white"}}  />
+                            </div>
                         )}
                     </div>
 

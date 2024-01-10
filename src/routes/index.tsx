@@ -10,6 +10,7 @@ import PerfTask1 from "../pages/performance/perf_task_1"
 import PerfTask2 from "../pages/performance/perf_task_2"
 import PerfTask3 from "../pages/performance/perf_task_3"
 import PerfTask4 from "../pages/performance/perf_task_4"
+import PerfTask5 from "../pages/performance/perf_task_5"
 
 export const router = createBrowserRouter([
     {
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
             {
                 path: "performans/task-4",
                 element:<PerfTask4/>
+            },
+            {
+                path: "performans/task-5",
+                element:<PerfTask5/>
             }
         ]
     }

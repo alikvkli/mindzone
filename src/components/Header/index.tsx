@@ -46,6 +46,7 @@ const Header: React.FC = () => {
         { text: 'Performans 2', link: "/performans/task-2" },
         { text: 'Performans 3', link: "/performans/task-3" },
         { text: 'Performans 4', link: "/performans/task-4" },
+        { text: 'Performans 5', link: "/performans/task-5" },
         { text: 'Giriş Yap', link: '/giris-yap' },
         { text: 'Kayıt Ol', link: '/kayit-ol' },
         { text: 'Biz Kimiz', link: '/hakkimizda' },

@@ -1,23 +1,88 @@
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../hooks";
 import { useEffect, useState } from "react";
+import { generateExpression } from "../../../utils";
+import useTimer from "../../../hooks/useTimer";
+import classNames from "classnames";
+
+type TAnswers = {
+    rule: string;
+    question: string;
+    user_answer: string;
+    correct_answer: string;
+    status: boolean;
+    time: number;
+}
+
+const vowels = ['A', 'E', 'I', 'U'];
+const evenNumbers = [2, 4, 6, 8];
 
 export default function Task2() {
     const navigate = useNavigate();
     const { appName, step } = useAppSelector(state => state.app);
     const [started, setStarted] = useState<boolean>(false);
     const [taskDone, setTaskDone] = useState(false);
+    const [expression, setExpression] = useState(generateExpression('letter'));
+    const [round, setRound] = useState<number>(0);
+    const [answers, setAnswers] = useState<TAnswers[]>([]);
+    const { time, startTimer, stopTimer, resetTimer } = useTimer();
+    const [result, setResult] = useState<string>("");
 
-
-    // useEffect(() => {
-    //     if (step.task !== 1) {
-    //         navigate(`/week/${step.week}/task-${step.task}`)
-    //     }
-    // }, [step])
 
     const handleStart = () => {
+        startTimer();
         setStarted(true)
     }
+
+    const handleCheck = (userAnswer: string) => {
+        stopTimer();
+
+        setRound(round => round + 1);
+        setResult("");
+
+        let correctAnswer = "";
+
+        if (expression.rule === "letter") {
+            correctAnswer = vowels.includes(expression.output.charAt(0)) ? "Y" : "X";
+        } else {
+            correctAnswer = evenNumbers.includes(Number(expression.output.charAt(1))) ? "Y" : "X";
+        }
+
+        setResult(userAnswer === correctAnswer ? "Doğru cevapladınız!" : "Yanlış cevapladınız!")
+
+        setAnswers((prevState) => ([...prevState, {
+            rule: expression.rule,
+            question: expression.output,
+            user_answer: userAnswer,
+            correct_answer: correctAnswer,
+            status: userAnswer === correctAnswer,
+            time: time
+        }]))
+
+        resetTimer();
+
+        let showResultInterval: NodeJS.Timeout;
+
+        showResultInterval = setInterval(() => {
+            setResult("");
+            if (round + 1 <= 10) {
+                setExpression(generateExpression('letter'))
+            } else if (round + 1 > 10 && round + 1 <= 20) {
+                setExpression(generateExpression('number'))
+            } else if (round + 1 > 20) {
+                setExpression(generateExpression(Math.random() < 0.5 ? 'letter' : 'number'))
+            }
+            startTimer();
+            clearInterval(showResultInterval);
+        }, 1000);
+
+
+
+    }
+
+    useEffect(() => {
+        console.table(answers);
+    }, [answers])
 
     return (
         <section className="w-full h-full flex flex-col items-start justify-center md:px-14 max-md:px-4 mt-4" >
@@ -63,7 +128,55 @@ export default function Task2() {
             )}
 
             {started && (
-                <p>Task 2 here!</p>
+                <div className="relative bg-black mb-4 flex flex-col items-center justify-center w-full h-full min-h-[500px]">
+
+                    {result !== "" && (
+                        <div className="absolute  bg-slate-300/30 w-full h-full flex items-center justify-center">
+                            <p className={classNames(' text-3xl my-2', {
+                                'text-[#4caf50]': result.includes('Doğru'),
+                                'text-red-500': result.includes('Yanlış')
+                            })}>{result}</p>
+                        </div>
+                    )}
+
+                    <div className="border-[1px] border-[#f9a925] w-[300px] h-[300px] grid grid-cols-2">
+                        <div className="border-r-[1px] border-b-[1px]  border-[#f9a925] w-[150px] h-[150px] flex items-center justify-center text-white text-3xl">
+                            {expression.rule === "letter" && round % 2 === 0 && (
+                                expression.output
+                            )}
+                        </div>
+                        <div className="border-b-[1px] border-[#f9a925] w-[150px] h-[150px] flex items-center justify-center text-white text-3xl">
+                            {expression.rule === "letter" && round % 2 !== 0 && (
+                                expression.output
+                            )}
+                        </div>
+                        <div className="border-r-[1px] border-[#f9a925] w-[150px] h-[150px] flex items-center justify-center text-white text-3xl">
+                            {expression.rule === "number" && round % 2 !== 0 && (
+                                expression.output
+                            )}
+                        </div>
+                        <div className=" w-[150px] h-[150px] flex items-center justify-center text-white text-3xl">
+                            {expression.rule === "number" && round % 2 === 0 && (
+                                expression.output
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-4 mt-4">
+                        <button
+                            onClick={() => handleCheck("X")}
+                            className="text-white border-[2px] min-w-[100px] border-[#5068cb] rounded-md p-2">
+                            X
+                        </button>
+
+                        <button
+                            onClick={() => handleCheck("Y")}
+                            className="text-white border-[2px]  min-w-[100px] border-[#5068cb] rounded-md p-2">
+                            Y
+                        </button>
+                    </div>
+
+                </div>
             )}
 
 
