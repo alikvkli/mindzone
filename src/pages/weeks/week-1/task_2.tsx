@@ -37,7 +37,6 @@ export default function Task2() {
     const handleCheck = (userAnswer: string) => {
         stopTimer();
 
-        setRound(round => round + 1);
         setResult("");
 
         let correctAnswer = "";
@@ -64,6 +63,7 @@ export default function Task2() {
         let showResultInterval: NodeJS.Timeout;
 
         showResultInterval = setInterval(() => {
+            setRound(round => round + 1);
             setResult("");
             if (round + 1 <= 10) {
                 setExpression(generateExpression('letter'))
