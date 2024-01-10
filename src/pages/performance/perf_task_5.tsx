@@ -111,6 +111,13 @@ export default function PerfTask5() {
                         </div>
 
                         <img
+                            onLoad={() => {
+                                setLoading(true);
+                                setTimeout(() => {
+                                    setLoading(false);
+                                }, 500)
+                            }}
+                            loading="lazy"
                             className="w-[600px]  h-[300px] object-cover max-md:h-[300px] max-md:object-contain rounded-md"
                             src={`${process.env.PUBLIC_URL}/img/${sequences[seqIndex]?.path}.png`} />
 
