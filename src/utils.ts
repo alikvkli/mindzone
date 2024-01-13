@@ -577,7 +577,7 @@ export const generateEyes = () => {
 }
 
 export const generateExpression = (rule: 'letter' | 'number'): { rule: 'letter' | 'number', output: string } => {
-    
+
     const vowels = ['A', 'E', 'I', 'U'];
     const consonants = ['G', 'K', 'M', 'R'];
     const oddNumbers = [3, 5, 7, 9];
@@ -599,4 +599,45 @@ export const generateExpression = (rule: 'letter' | 'number'): { rule: 'letter' 
         rule,
         output,
     };
+}
+
+export const getRuleDetail = (rule: 'letter' | 'number'): string => {
+    if (rule === "letter") {
+        return "Sessiz harf ise X, sesli harf ise Y'ye basın";
+    } else {
+        return "Tek sayı ise X, çift sayı ise Y'ye basın."
+    }
+}
+
+export const generateColor = () => {
+    const colors = [
+        {
+            text: "YEŞİL",
+            colorCode: "#dfdf00"
+        },
+        {
+            text: "MAVİ",
+            colorCode: "#008000"
+        },
+        {
+            text: "KIRMIZI",
+            colorCode: "#0000FF"
+        },
+        {
+            text: "SARI",
+            colorCode: "#FF0000"
+        },
+        {
+            text: "MOR",
+            colorCode: "#ff00ff"
+        },
+        {
+            text: "PEMBE",
+            colorCode: "#FFA500"
+        },
+    ]
+
+    const randomIndex = Math.floor(Math.random() * colors.length);
+
+    return colors[randomIndex]
 }

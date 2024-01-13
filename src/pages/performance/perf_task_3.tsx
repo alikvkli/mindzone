@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "../../hooks";
 import { TRandomImage, generateRandomImage, generateRandomSequence } from "../../utils";
 import useTimer from "../../hooks/useTimer";
-import { Box, CircularProgress, Collapse, Drawer, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, CircularProgress, Collapse, Drawer, Fade, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Info, KeyboardArrowDown, KeyboardArrowUp, Visibility } from "@mui/icons-material";
 import classNames from "classnames";
 import React from "react";
@@ -253,7 +253,7 @@ export default function PerfTask3() {
             if (sequence[round].value === "G") {
                 setAnswers((prevState) => [...prevState, { id: sequence[round].id, sequence: sequence[round].value, status: 'true' }])
             } else if (sequence[round].value === "NG") {
-                setResult("Hata: basmamanız gerekirken tuşa bastınız.")
+                setResult("Basmamanız gerekirken tuşa bastınız.")
                 setAnswers((prevState) => [...prevState, { id: sequence[round].id, sequence: sequence[round].value, status: 'false' }])
             }
         }
@@ -308,27 +308,26 @@ export default function PerfTask3() {
             {started && !taskDone && (
                 <div className="bg-black flex flex-col relative items-center justify-around w-full  mb-4 h-full min-h-[500px]">
                     <div className="flex flex-col items-center justify-center gap-2">
-                        {showSequence && result === "" && !loading && (
-                            <div className="bg-yellow-500 text-white h-14 min-w-14 w-fit flex-none text-4xl rounded-sm py-4 px-8 flex  items-center justify-center">
-                                {sequence[round].text}
-                            </div>
+                        {showSequence && result === "" && (
+                            <Fade in={!loading}>
+                                <div className="bg-yellow-500 text-white h-14 min-w-14 w-fit flex-none text-4xl rounded-sm py-4 px-8 flex  items-center justify-center">
+                                    {sequence[round].text}
+                                </div>
+
+                            </Fade>
                         )}
                         {result.toLowerCase().includes("hata") && (
                             <p className="text-red-600 text-center max-md:text-xl text-3xl ">
                                 {result}
                             </p>
                         )}
-
-                        {loading && (
-                            <div className="bg-yellow-500 text-white h-14 min-w-14 w-fit flex-none text-4xl rounded-sm py-4 px-8 flex  items-center justify-center">
-                                <CircularProgress style={{color: "white"}}  />
-                            </div>
-                        )}
+                        
                     </div>
-
-                    <IconButton style={{ background: "#5068cb", color: "white", height: "60px", width: "60px" }} onClick={checkInput}>
+                    {!loading && <IconButton style={{ background: "#5068cb", color: "white", height: "60px", width: "60px" }} onClick={checkInput}>
                         <Visibility />
-                    </IconButton>
+                    </IconButton>}
+
+
 
                 </div>
             )}

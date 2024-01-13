@@ -11,6 +11,7 @@ import PerfTask2 from "../pages/performance/perf_task_2"
 import PerfTask3 from "../pages/performance/perf_task_3"
 import PerfTask4 from "../pages/performance/perf_task_4"
 import PerfTask5 from "../pages/performance/perf_task_5"
+import Task3 from "../pages/weeks/week-1/task_3"
 
 export const router = createBrowserRouter([
     {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
             {
                 path: "hafta/1/task-2",
                 element: <Task2 />
+            },
+            {
+                path: "hafta/1/task-3",
+                element: <Task3 />
             },
             {
                 path: "performans/task-1",

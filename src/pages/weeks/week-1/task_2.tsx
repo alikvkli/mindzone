@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../hooks";
 import { useEffect, useState } from "react";
-import { generateExpression } from "../../../utils";
+import { generateExpression, getRuleDetail } from "../../../utils";
 import useTimer from "../../../hooks/useTimer";
 import classNames from "classnames";
 
@@ -65,11 +65,11 @@ export default function Task2() {
         showResultInterval = setInterval(() => {
             setRound(round => round + 1);
             setResult("");
-            if (round + 1 <= 10) {
+            if (round + 1 <= 15) {
                 setExpression(generateExpression('letter'))
-            } else if (round + 1 > 10 && round + 1 <= 20) {
+            } else if (round + 1 > 15 && round + 1 <= 30) {
                 setExpression(generateExpression('number'))
-            } else if (round + 1 > 20) {
+            } else if (round + 1 > 30) {
                 setExpression(generateExpression(Math.random() < 0.5 ? 'letter' : 'number'))
             }
             startTimer();
@@ -106,7 +106,7 @@ export default function Task2() {
             </div>
             <hr className="w-full h-[0.5px] my-2 bg-gray-400" />
             {!started && (
-                <div className="flex bg-white w-full p-4 rounded-md shadow-md flex-col items-start gap-2">
+                <div className="flex bg-white w-full mb-4 p-4 rounded-md shadow-md flex-col items-start gap-2">
                     <div className="bg-[#5068cb]/20 rounded-full my-2 px-2.5 py-1.5 ">
                         <h5 className="text-lg text-gradient">Takip etmeniz gereken yönergeler</h5>
                     </div>
@@ -139,52 +139,55 @@ export default function Task2() {
                         </div>
                     )}
 
-                    <div className="border-[1px] border-[#f9a925] w-[300px] h-[300px] grid grid-cols-2">
-                        <div className="border-r-[1px] border-b-[1px]  border-[#f9a925] w-[150px] h-[150px] flex items-center justify-center text-white text-3xl">
-                            {expression.rule === "letter" && round % 2 === 0 && (
-                                expression.output
-                            )}
+                    {round < 30 && (
+                        <div className="mb-4 flex flex-col items-center justify-center">
+                            <p className="text-white font-semibold">Kural</p>
+                            <p className="text-white">
+                                {getRuleDetail(expression.rule)}
+                            </p>
                         </div>
-                        <div className="border-b-[1px] border-[#f9a925] w-[150px] h-[150px] flex items-center justify-center text-white text-3xl">
-                            {expression.rule === "letter" && round % 2 !== 0 && (
-                                expression.output
-                            )}
+                    )}
+
+                    <div >
+                        <div className="border-[1px] border-[#f9a925] w-[300px] h-[300px] grid grid-cols-2">
+                            <div className="border-r-[1px] border-b-[1px]  border-[#f9a925] w-[150px] h-[150px] flex items-center justify-center text-white text-3xl">
+                                {expression.rule === "letter" && round % 2 === 0 && (
+                                    expression.output
+                                )}
+                            </div>
+                            <div className="border-b-[1px] border-[#f9a925] w-[150px] h-[150px] flex items-center justify-center text-white text-3xl">
+                                {expression.rule === "letter" && round % 2 !== 0 && (
+                                    expression.output
+                                )}
+                            </div>
+                            <div className="border-r-[1px] border-[#f9a925] w-[150px] h-[150px] flex items-center justify-center text-white text-3xl">
+                                {expression.rule === "number" && round % 2 !== 0 && (
+                                    expression.output
+                                )}
+                            </div>
+                            <div className=" w-[150px] h-[150px] flex items-center justify-center text-white text-3xl">
+                                {expression.rule === "number" && round % 2 === 0 && (
+                                    expression.output
+                                )}
+                            </div>
                         </div>
-                        <div className="border-r-[1px] border-[#f9a925] w-[150px] h-[150px] flex items-center justify-center text-white text-3xl">
-                            {expression.rule === "number" && round % 2 !== 0 && (
-                                expression.output
-                            )}
-                        </div>
-                        <div className=" w-[150px] h-[150px] flex items-center justify-center text-white text-3xl">
-                            {expression.rule === "number" && round % 2 === 0 && (
-                                expression.output
-                            )}
+
+                        <div className="flex items-center justify-center gap-4 mt-4">
+                            <button
+                                onClick={() => handleCheck("X")}
+                                className="text-white border-[2px] min-w-[100px] border-[#5068cb] rounded-md p-2">
+                                X
+                            </button>
+
+                            <button
+                                onClick={() => handleCheck("Y")}
+                                className="text-white border-[2px]  min-w-[100px] border-[#5068cb] rounded-md p-2">
+                                Y
+                            </button>
                         </div>
                     </div>
-
-                    <div className="flex items-center justify-center gap-4 mt-4">
-                        <button
-                            onClick={() => handleCheck("X")}
-                            className="text-white border-[2px] min-w-[100px] border-[#5068cb] rounded-md p-2">
-                            X
-                        </button>
-
-                        <button
-                            onClick={() => handleCheck("Y")}
-                            className="text-white border-[2px]  min-w-[100px] border-[#5068cb] rounded-md p-2">
-                            Y
-                        </button>
-                    </div>
-
                 </div>
             )}
-
-
-
-
-
-
-
         </section>
     )
 }
