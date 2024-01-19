@@ -46,7 +46,7 @@ const weekData = [
         title: "Hafta 2",
         link: "/hafta/2/task-1",
         done: false,
-        enabled: false,
+        enabled: true,
 
     },
     {

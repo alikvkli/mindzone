@@ -641,3 +641,67 @@ export const generateColor = () => {
 
     return colors[randomIndex]
 }
+
+
+export const generateWeek2Task1 = () => {
+    const genders = ['male', 'female'];
+    const selectedGender = genders[Math.floor(Math.random() * genders.length)];
+
+    const folderNames: string[] = Array.from({ length: 15 }, (_, index) => {
+        const folderNumber = index + 1;
+        const paddedFolderNumber = folderNumber < 10 ? `0${folderNumber}` : `${folderNumber}`;
+        return `${selectedGender === 'male' ? 'AM' : 'AF'}${paddedFolderNumber}`;
+    });
+
+    const selectedFiles: { show: boolean, name: string }[] = [];
+    const fileNamePool = ['AFS', 'ANS', 'DIS', 'HAS', 'NES', 'SAS', 'SUS'];
+
+    const selectedFolder = Math.floor(Math.random() * folderNames.length);
+
+    let folderFileName1 = fileNamePool[Math.floor(Math.random() * fileNamePool.length)];
+    selectedFiles.push({
+        show: true,
+        name: `${selectedGender}/${folderNames[selectedFolder]}/${folderNames[selectedFolder] + folderFileName1}`
+    })
+
+    let folderFileName2 = fileNamePool[Math.floor(Math.random() * fileNamePool.length)];
+    do {
+        folderFileName2 = fileNamePool[Math.floor(Math.random() * fileNamePool.length)];
+    } while (folderFileName1 === folderFileName2)
+
+    selectedFiles.push({
+        show: true,
+        name: `${selectedGender}/${folderNames[selectedFolder]}/${folderNames[selectedFolder] + folderFileName2}`
+    })
+
+
+    let selectDifferentFolder1 = Math.floor(Math.random() * folderNames.length);
+
+    do {
+        selectDifferentFolder1 = Math.floor(Math.random() * folderNames.length);
+    } while (selectDifferentFolder1 === selectedFolder)
+    selectedFiles.push({
+        show: true,
+        name: `${selectedGender}/${folderNames[selectDifferentFolder1]}/${folderNames[selectDifferentFolder1] + folderFileName1}`
+    })
+
+
+    let selectDifferentFolder2 = Math.floor(Math.random() * folderNames.length);
+    selectDifferentFolder2 = Math.floor(Math.random() * folderNames.length);
+    do {
+        selectDifferentFolder1 = Math.floor(Math.random() * folderNames.length);
+    } while (selectDifferentFolder2 === selectedFolder || selectDifferentFolder2 === selectDifferentFolder1)
+
+    selectedFiles.push({
+        show: true,
+        name: `${selectedGender}/${folderNames[selectDifferentFolder2]}/${folderNames[selectDifferentFolder2] + folderFileName2}`
+    })
+
+
+    const result: { gender: string, output: { show: boolean, name: string }[] } = {
+        gender: selectedGender,
+        output: selectedFiles.sort(() => Math.random() - 0.5),
+    };
+
+    return result;
+}

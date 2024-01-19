@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { CiTimer } from "react-icons/ci";
 import { CiCircleCheck } from "react-icons/ci";
 import { RxCrossCircled } from "react-icons/rx";
 import { useAppSelector } from "../../../hooks";
@@ -7,25 +6,13 @@ import useTimer from "../../../hooks/useTimer";
 import Calculator from "../../../components/Calculator";
 import NumberCard from "../../../components/NumberCard";
 import { useNavigate } from "react-router-dom";
-import { Button, Drawer, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Drawer, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { Info } from "@mui/icons-material";
+import WeekLayout from "../../../components/WeekLayout";
 
-type TAnswers = {
-    answer: string;
-    question: string;
-    status: boolean;
-    time: number;
-}
-
-type TStats = {
-    correctCount: number;
-    wrongCount: number;
-}
-const _TIMER = 1000; // 1000
-const _NOTIFIER_TIME = 1500; // 1500
 export default function Task1() {
     const navigate = useNavigate();
-    const { appName, step } = useAppSelector(state => state.app);
+    const { step } = useAppSelector(state => state.app);
     const [started, setStarted] = useState<boolean>(false);
     const [numbers, setNumbers] = useState<string[]>([]);
     const [currentNumberIndex, setCurrentNumberIndex] = useState(0);
@@ -234,50 +221,23 @@ export default function Task1() {
     };
 
 
-
     return (
-        <section className="w-full h-full flex flex-col items-start justify-center md:px-14 max-md:px-4 mt-4" >
-            <div className="flex w-full bg-white p-4 rounded-md shadow-md items-center justify-between">
-                <div>
-                    <h1 className="text-3xl text-gradient">{appName}</h1>
-                    <h5 className="text-lg text-gray-500">Hafta 1 / Digit Span</h5>
-                </div>
-                {!started && (
-                    <button onClick={handleStart} type="button" className="bg-[#4caf50] rounded-full px-4 py-1.5 text-white hover:bg-[#4caf50]/80 transition-all  flex-none">
-                        Başlat
-                    </button>
-                )}
-
-                {started && !taskDone && (
-                    <div className="flex flex-col items-start justify-center gap-0.5">
-                        <p className="flex items-center justify-center gap-1.5 text-[#4caf50] text-sm"><CiCircleCheck size={16} color="#4caf50" /> {stats.correctCount}</p>
-                        <p className="flex items-center justify-center gap-1.5 text-red-500 text-sm"><RxCrossCircled color="#f56565" /> {stats.wrongCount}</p>
-                    </div>
-                )}
-
-                {started && taskDone && (
-                    <div className="bg-[#4caf50] rounded-full my-2 px-2.5 py-1.5 ">
-                        <h5 className="text-lg text-white">Tamamlandı</h5>
-                    </div>
-                )}
-            </div>
-            <hr className="w-full h-[0.5px] my-2 bg-gray-400" />
-            {!started && (
-                <div className="flex bg-white w-full p-4 rounded-md shadow-md flex-col items-start gap-2">
-                    <div className="bg-[#5068cb]/20 rounded-full my-2 px-2.5 py-1.5 ">
-                        <h5 className="text-lg text-gradient">Takip etmeniz gereken yönergeler:</h5>
-                    </div>
-                    <p>Bu egzersizde ekranda gördüğünüz sayıları ezberlemeye çalışacaksınız. Tüm sayılar 0 ile 9 arasındadır.</p>
-                    <p>Bu tür sayılara <b>rakam</b> diyoruz.</p>
-                    <p>Birbiri ardına bir dizi <b>rakam</b> göreceksiniz.</p>
-                    <p>Rakamları hatırladıktan sonra sizlerden o rakamları sırayla yazmanızı isteyeceğiz.</p>
-                    <p>Ör. 1 - 2 - 3 - 4 = 1234 yazmanız gerekmektedir.</p>
-                    <p>Tüm sayıları girdikten sonra <span className="bg-[#4caf50] text-white text-sm rounded-full px-2">Devam</span> butonuna tıklayarak sonraki admına geçeceksiniz.</p>
-                    <p>Rakamları girdikten sonra yanıtınızın doğru olup olmadığı söylenecektir.</p>
-
-                    <p className="mt-2">Hadi başlayalım!</p>
-                </div>
-            )}
+        <WeekLayout
+            subject="Hafta 1 / Digit Span"
+            started={started}
+            handleStart={handleStart}
+            taskDone={taskDone}
+            header={
+                <>
+                    {started && !taskDone && (
+                        <div className="flex flex-col items-start justify-center gap-0.5">
+                            <p className="flex items-center justify-center gap-1.5 text-[#4caf50] text-sm"><CiCircleCheck size={16} color="#4caf50" /> {stats.correctCount}</p>
+                            <p className="flex items-center justify-center gap-1.5 text-red-500 text-sm"><RxCrossCircled color="#f56565" /> {stats.wrongCount}</p>
+                        </div>
+                    )}
+                </>
+            }
+            guidelines={guideline}>
             {started && !showNumbers && !taskDone && (
                 <div className="bg-black mb-4 flex flex-col items-center justify-center w-full h-full min-h-[500px]">
                     {isEqual === 2 && (
@@ -349,7 +309,31 @@ export default function Task1() {
                     </Table>
                 </TableContainer>
             </Drawer>
-
-        </section>
+        </WeekLayout>
     )
 }
+
+type TAnswers = {
+    answer: string;
+    question: string;
+    status: boolean;
+    time: number;
+}
+
+type TStats = {
+    correctCount: number;
+    wrongCount: number;
+}
+const _TIMER = 1000; // 1000
+const _NOTIFIER_TIME = 1500; // 1500
+
+const guideline = <>
+    <p>Bu egzersizde ekranda gördüğünüz sayıları ezberlemeye çalışacaksınız. Tüm sayılar 0 ile 9 arasındadır.</p>
+    <p>Bu tür sayılara <b>rakam</b> diyoruz.</p>
+    <p>Birbiri ardına bir dizi <b>rakam</b> göreceksiniz.</p>
+    <p>Rakamları hatırladıktan sonra sizlerden o rakamları sırayla yazmanızı isteyeceğiz.</p>
+    <p>Ör. 1 - 2 - 3 - 4 = 1234 yazmanız gerekmektedir.</p>
+    <p>Tüm sayıları girdikten sonra <span className="bg-[#4caf50] text-white text-sm rounded-full px-2">Devam</span> butonuna tıklayarak sonraki admına geçeceksiniz.</p>
+    <p>Rakamları girdikten sonra yanıtınızın doğru olup olmadığı söylenecektir.</p>
+    <p className="mt-2">Hadi başlayalım!</p>
+</>
